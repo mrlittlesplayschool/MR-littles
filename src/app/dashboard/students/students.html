@@ -41,7 +41,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let s of filtered">
-            <td>
+            <td data-label="Student">
               <div class="td-name">
                 <div class="td-av" [style.background]="'linear-gradient(135deg,'+programColors[s.program]+','+programColors[s.program]+'88)'">
                   {{ s.avatar }}
@@ -52,22 +52,22 @@
                 </div>
               </div>
             </td>
-            <td>
+            <td data-label="Program">
               <span class="badge" [style.color]="programColors[s.program]"
                 [style.background]="programColors[s.program]+'18'"
                 [style.borderColor]="programColors[s.program]+'33'">
                 {{ s.program }}
               </span>
             </td>
-            <td>{{ s.age }}</td>
-            <td>{{ s.parentName }}</td>
-            <td>{{ s.phone }}</td>
-            <td>
+            <td data-label="Age">{{ s.age }}</td>
+            <td data-label="Parent">{{ s.parentName }}</td>
+            <td data-label="Phone">{{ s.phone }}</td>
+            <td data-label="Fee Plan">
               <span class="badge badge-blue">{{ s.feePlan }}</span>
             </td>
-            <td>{{ s.joinDate }}</td>
-            <td><span class="badge" [class]="feeClass(s.feeStatus)">{{ s.feeStatus }}</span></td>
-            <td>
+            <td data-label="Join Date">{{ s.joinDate }}</td>
+            <td data-label="Fee Status"><span class="badge" [class]="feeClass(s.feeStatus)">{{ s.feeStatus }}</span></td>
+            <td data-label="Actions">
               <div class="action-btns">
                 <button class="icon-btn" (click)="openEdit(s)" title="Edit">✏️</button>
                 <button class="icon-btn danger" (click)="deleteStudent(s.id)" title="Delete">🗑️</button>

@@ -322,3 +322,124 @@
 
   option { background: var(--ink); }
 }
+
+
+// ── Mobile Responsive ─────────────────────────────
+@media (max-width: 900px) {
+  .page-hdr {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .page-title {
+    font-size: 1.4rem;
+  }
+  
+  .btn-add {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-wrap {
+    min-width: 100%;
+  }
+  
+  .filter-select {
+    width: 100%;
+  }
+  
+  // Card view for mobile instead of table
+  .tbl-wrap {
+    table {
+      thead {
+        display: none; // Hide table headers on mobile
+      }
+      
+      tbody tr {
+        display: block;
+        margin-bottom: 16px;
+        border: 1px solid var(--rim);
+        border-radius: var(--r-md);
+        padding: 16px;
+        background: var(--ink);
+        
+        &:hover {
+          background: var(--surface);
+        }
+        
+        td {
+          display: block;
+          padding: 8px 0;
+          border-bottom: none;
+          
+          &:before {
+            content: attr(data-label);
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--chalk-3);
+            margin-bottom: 4px;
+          }
+          
+          &:last-child {
+            padding-top: 12px;
+            margin-top: 8px;
+            border-top: 1px solid var(--rim);
+          }
+        }
+      }
+    }
+  }
+  
+  .action-btns {
+    justify-content: flex-start;
+  }
+  
+  .modal {
+    width: 95vw;
+    padding: 20px;
+    border-radius: var(--r-md);
+    max-height: 85vh;
+  }
+  
+  .modal-title {
+    font-size: 1rem;
+  }
+  
+  .modal-footer {
+    flex-direction: column-reverse;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .page-title {
+    font-size: 1.2rem;
+  }
+  
+  .td-av {
+    width: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+  }
+  
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .badge {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+}
