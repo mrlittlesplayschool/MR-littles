@@ -1,0 +1,73 @@
+<!-- ATTENDANCE MODULE -->
+<div class="page">
+
+  <div class="page-hdr">
+    <div>
+      <h1 class="page-title">Attendance</h1>
+      <p class="page-sub">Mark and track daily attendance</p>
+    </div>
+    <app-datepicker
+      [value]="selectedDate"
+      placeholder="Select date"
+      (valueChange)="selectedDate = $event; onDateChange()">
+    </app-datepicker>
+  </div>
+
+  <!-- Program tabs -->
+  <div class="prog-tabs">
+    <button *ngFor="let p of programs"
+      class="prog-tab"
+      [class.active]="selectedProgram === p"
+      (click)="selectProgram(p)">
+      {{ p }}
+    </button>
+  </div>
+
+  <!-- Summary chips -->
+  <div class="att-summary">
+    <div class="att-chip green">✅ {{ presentCount }} Present</div>
+    <div class="att-chip red">❌ {{ absentCount }} Absent</div>
+    <div class="att-chip yellow">🕐 {{ lateCount }} Late</div>
+    <div class="att-chip blue">👥 {{ students.length }} Total</div>
+  </div>
+
+  <!-- Bulk actions + save -->
+  <div class="card glass filter-bar">
+    <button class="btn-ghost" (click)="markAll('present')">✅ Mark All Present</button>
+    <button class="btn-ghost" (click)="markAll('absent')">❌ Mark All Absent</button>
+    <button [class]="saved ? 'btn-save saved' : 'btn-save'" (click)="saveAttendance()">
+      {{ saved ? '✅ Saved!' : '💾 Save Attendance' }}
+    </button>
+  </div>
+
+  <!-- Attendance list -->
+  <div class="att-list">
+    <div class="att-row glass" *ngFor="let s of students">
+      <div class="att-av" [style.background]="statusColor(s.status)+'33'" [style.color]="statusColor(s.status)">
+        {{ s.avatar }}
+      </div>
+      <div class="att-name">
+        <div>{{ s.name }}</div>
+        <div style="font-size:.68rem;color:var(--chalk-3)">{{ s.id }}</div>
+      </div>
+      <div class="att-status-group">
+        <button class="status-btn"
+          [class.active-present]="s.status === 'present'"
+          (click)="setStatus(s.id, 'present')">
+          Present
+        </button>
+        <button class="status-btn"
+          [class.active-late]="s.status === 'late'"
+          (click)="setStatus(s.id, 'late')">
+          Late
+        </button>
+        <button class="status-btn"
+          [class.active-absent]="s.status === 'absent'"
+          (click)="setStatus(s.id, 'absent')">
+          Absent
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

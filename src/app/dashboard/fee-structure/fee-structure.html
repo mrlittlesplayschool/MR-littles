@@ -1,0 +1,229 @@
+<!-- FEE STRUCTURE MANAGER -->
+<div class="page">
+
+  <!-- Page Header -->
+  <div class="page-hdr">
+    <div>
+      <h1 class="page-title">⚙️ Fee Structure Manager</h1>
+      <p class="page-sub">Configure fee plans for Academic Year {{ currentYear }}</p>
+    </div>
+  </div>
+
+  <!-- Program Tabs -->
+  <div class="program-tabs glass">
+    <button 
+      *ngFor="let program of programs"
+      class="program-tab"
+      [class.active]="selectedProgram === program"
+      (click)="selectProgram(program)">
+      {{ program }}
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading()">
+    <div class="spinner"></div>
+    <p>Loading fee structures...</p>
+  </div>
+
+  <!-- Fee Structure Form -->
+  <div class="fee-structure-grid" *ngIf="!loading()">
+    
+    <!-- Monthly Plan -->
+    <div class="fee-plan-card glass">
+      <div class="plan-header">
+        <div class="plan-icon" style="background: rgba(26, 143, 209, 0.15)">📅</div>
+        <div>
+          <h3 class="plan-title">Monthly Plan</h3>
+          <p class="plan-desc">Pay every month, flexible</p>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Monthly Fee Amount *</label>
+        <div class="input-with-prefix">
+          <span class="prefix">₹</span>
+          <input 
+            type="number" 
+            [(ngModel)]="planData['Monthly'].amount"
+            placeholder="3000"
+            min="0">
+        </div>
+      </div>
+
+      <div class="plan-info">
+        <div class="info-row">
+          <span>Effective Monthly:</span>
+          <strong>{{ fmt(calculateEffectiveMonthly('Monthly')) }}</strong>
+        </div>
+        <div class="info-row">
+          <span>Discount:</span>
+          <strong>0%</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 Months Plan -->
+    <div class="fee-plan-card glass">
+      <div class="plan-header">
+        <div class="plan-icon" style="background: rgba(232, 130, 12, 0.15)">📆</div>
+        <div>
+          <h3 class="plan-title">6 Months Plan</h3>
+          <p class="plan-desc">Semi-annual payment</p>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>6 Months Fee Amount *</label>
+        <div class="input-with-prefix">
+          <span class="prefix">₹</span>
+          <input 
+            type="number" 
+            [(ngModel)]="planData['6 Months'].amount"
+            placeholder="17000"
+            min="0">
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Discount Percentage</label>
+        <div class="input-with-suffix">
+          <input 
+            type="number" 
+            [(ngModel)]="planData['6 Months'].discount"
+            placeholder="5"
+            min="0"
+            max="100"
+            step="0.1">
+          <span class="suffix">%</span>
+        </div>
+      </div>
+
+      <div class="plan-info">
+        <div class="info-row">
+          <span>Effective Monthly:</span>
+          <strong>{{ fmt(calculateEffectiveMonthly('6 Months')) }}</strong>
+        </div>
+        <div class="info-row savings">
+          <span>Savings vs Monthly:</span>
+          <strong>{{ fmt(calculateSavings('6 Months')) }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Yearly Plan -->
+    <div class="fee-plan-card glass featured">
+      <div class="best-value-badge">🎉 Best Value</div>
+      <div class="plan-header">
+        <div class="plan-icon" style="background: rgba(34, 160, 90, 0.15)">📋</div>
+        <div>
+          <h3 class="plan-title">Yearly Plan</h3>
+          <p class="plan-desc">Full year, maximum savings</p>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Yearly Fee Amount *</label>
+        <div class="input-with-prefix">
+          <span class="prefix">₹</span>
+          <input 
+            type="number" 
+            [(ngModel)]="planData['Yearly'].amount"
+            placeholder="32000"
+            min="0">
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Discount Percentage</label>
+        <div class="input-with-suffix">
+          <input 
+            type="number" 
+            [(ngModel)]="planData['Yearly'].discount"
+            placeholder="11"
+            min="0"
+            max="100"
+            step="0.1">
+          <span class="suffix">%</span>
+        </div>
+      </div>
+
+      <div class="plan-info">
+        <div class="info-row">
+          <span>Effective Monthly:</span>
+          <strong>{{ fmt(calculateEffectiveMonthly('Yearly')) }}</strong>
+        </div>
+        <div class="info-row savings">
+          <span>Savings vs Monthly:</span>
+          <strong class="highlight">{{ fmt(calculateSavings('Yearly')) }}</strong>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-bar glass" *ngIf="!loading()">
+    <div class="action-left">
+      <label>Copy from:</label>
+      <select (change)="copyFromProgram($any($event.target).value)">
+        <option value="">Select program...</option>
+        <option *ngFor="let program of programs" [value]="program" [disabled]="program === selectedProgram">
+          {{ program }}
+        </option>
+      </select>
+    </div>
+
+    <div class="action-right">
+      <button class="btn-ghost" (click)="loadProgramData()">
+        Reset
+      </button>
+      <button class="btn-add" (click)="saveFeeStructure()" [disabled]="saving()">
+        {{ saving() ? 'Saving...' : '💾 Save Fee Structure' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Preview Table -->
+  <div class="card glass preview-section" *ngIf="!loading()">
+    <h3 class="section-title">📊 Fee Structure Preview</h3>
+    
+    <div class="preview-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Plan Type</th>
+            <th>Total Amount</th>
+            <th>Discount</th>
+            <th>Effective Monthly</th>
+            <th>Savings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let planType of planTypes">
+            <td><strong>{{ planType }}</strong></td>
+            <td>{{ fmt(planData[planType].amount) }}</td>
+            <td>{{ planData[planType].discount }}%</td>
+            <td>{{ fmt(calculateEffectiveMonthly(planType)) }}</td>
+            <td [class.savings-highlight]="calculateSavings(planType) > 0">
+              {{ calculateSavings(planType) > 0 ? fmt(calculateSavings(planType)) : '—' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Help Section -->
+  <div class="card glass help-section">
+    <h3 class="section-title">💡 Tips</h3>
+    <ul class="tips-list">
+      <li>✅ Set monthly fee as the base amount</li>
+      <li>✅ Offer 4-5% discount for 6-month plans</li>
+      <li>✅ Offer 7-11% discount for yearly plans to encourage advance payment</li>
+      <li>✅ Use "Copy from" to quickly set up similar programs</li>
+      <li>✅ Review the preview table before saving</li>
+    </ul>
+  </div>
+
+</div>

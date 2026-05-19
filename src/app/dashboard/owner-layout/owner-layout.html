@@ -1,0 +1,77 @@
+<!-- SHARED DASHBOARD LAYOUT -->
+<div class="dash-shell" [class.sidebar-open]="sidebarOpen()">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar" [class.open]="sidebarOpen()">
+
+    <div class="sb-logo">
+      <div class="sb-logo-mark" [style.background]="logoGradient">ML</div>
+      <div>
+        <div class="sb-logo-name">Mr. Littles</div>
+        <div class="sb-logo-sub" [style.color]="accentColor">{{ portalLabel }}</div>
+      </div>
+    </div>
+
+    <nav class="sb-nav">
+      <a
+        *ngFor="let item of visibleNavItems"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        (click)="closeSidebar()"
+        class="sb-link">
+        <span class="sb-link-icon">{{ item.icon }}</span>
+        <span class="sb-link-label">{{ item.label }}</span>
+        <span class="sb-link-dot" [style.background]="accentColor"></span>
+      </a>
+    </nav>
+
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-av" [style.background]="logoGradient">
+          {{ user?.name?.charAt(0) ?? (isOwner ? 'O' : 'T') }}
+        </div>
+        <div>
+          <div class="sb-user-name">{{ user?.name ?? (isOwner ? 'Owner' : 'Teacher') }}</div>
+          <div class="sb-user-role">{{ isOwner ? 'Administrator' : 'Class Teacher' }}</div>
+        </div>
+      </div>
+      <button class="sb-logout" (click)="logout()" title="Logout">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sb-overlay" [class.visible]="sidebarOpen()" (click)="closeSidebar()"></div>
+
+  <!-- ═══ MAIN AREA ═══ -->
+  <div class="dash-main">
+
+    <header class="topbar">
+      <button class="topbar-burger" (click)="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar-title">
+        <ng-container *ngFor="let item of navItems">
+          <span *ngIf="isActiveRoute(item.route)">{{ item.label }}</span>
+        </ng-container>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-date">{{ today }}</div>
+        <div class="topbar-av" [style.background]="logoGradient">
+          {{ user?.name?.charAt(0) ?? (isOwner ? 'O' : 'T') }}
+        </div>
+      </div>
+    </header>
+
+    <div class="dash-content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>

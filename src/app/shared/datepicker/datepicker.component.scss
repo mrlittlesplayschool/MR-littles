@@ -1,0 +1,250 @@
+.dp-wrap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+// ── Trigger ───────────────────────────────────────
+.dp-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--ink);
+  border: 1px solid var(--rim);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: all var(--t-fast);
+  color: var(--chalk);
+  font-size: .88rem;
+  user-select: none;
+
+  &:hover { 
+    border-color: var(--sun); 
+    background: var(--ink-2); 
+  }
+  
+  .dp-wrap.open & { 
+    border-color: var(--sun); 
+    box-shadow: 0 0 0 3px var(--sun-g); 
+  }
+
+  .dp-icon  { font-size: 1rem; }
+  .dp-value { 
+    flex: 1; 
+    &.placeholder { color: var(--chalk-3); } 
+  }
+  .dp-arrow { 
+    font-size: .7rem; 
+    color: var(--chalk-3); 
+    transition: transform var(--t-fast);
+    &.rotated { transform: rotate(180deg); } 
+  }
+}
+
+// ── Dropdown ──────────────────────────────────────
+.dp-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: auto;
+  z-index: 200;
+  width: 280px;
+  border-radius: var(--r-md);
+  padding: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+  border: 1px solid var(--rim);
+  background: var(--ink);
+  backdrop-filter: blur(20px);
+  animation: dpFadeIn .15s ease;
+
+  // When near right edge — flip to align right
+  .dp-wrap.align-right & {
+    left: auto;
+    right: 0;
+  }
+}
+
+@keyframes dpFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Header ────────────────────────────────────────
+.dp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.dp-nav {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--rim);
+  background: var(--surface);
+  color: var(--chalk-2);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t-fast);
+  line-height: 1;
+
+  &:hover:not(:disabled) { 
+    background: var(--sun-g); 
+    border-color: var(--sun); 
+    color: var(--sun); 
+  }
+  &:disabled { opacity: .3; cursor: not-allowed; }
+}
+
+.dp-month-year { display: flex; gap: 4px; }
+
+.dp-my-btn {
+  background: none;
+  border: none;
+  color: var(--chalk);
+  font-size: .92rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  transition: all var(--t-fast);
+  &:hover { 
+    background: var(--sun-g); 
+    color: var(--sun); 
+  }
+}
+
+// ── Weekdays ──────────────────────────────────────
+.dp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+
+  span {
+    text-align: center;
+    font-size: .68rem;
+    font-weight: 700;
+    color: var(--chalk-3);
+    padding: 4px 0;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+}
+
+// ── Days ──────────────────────────────────────────
+.dp-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dp-day {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: none;
+  background: none;
+  color: var(--chalk-2);
+  font-size: .82rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t-fast);
+
+  &:hover:not(.disabled):not(.empty) {
+    background: var(--sun-g);
+    color: var(--sun);
+  }
+  &.today {
+    border: 1px solid var(--sun);
+    color: var(--sun);
+    font-weight: 700;
+  }
+  &.selected {
+    background: linear-gradient(135deg, var(--sun), var(--rose)) !important;
+    color: #ffffff !important;
+    font-weight: 800;
+    box-shadow: 0 4px 12px var(--sun-g);
+  }
+  &.disabled {
+    opacity: .25;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  &.empty { pointer-events: none; }
+}
+
+// ── Month / Year pickers ──────────────────────────
+.dp-month-grid,
+.dp-year-grid {
+  display: grid;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.dp-month-grid { grid-template-columns: repeat(4, 1fr); }
+.dp-year-grid  { grid-template-columns: repeat(4, 1fr); max-height: 180px; overflow-y: auto; }
+
+.dp-m-btn,
+.dp-y-btn {
+  padding: 8px 4px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--rim);
+  background: var(--surface);
+  color: var(--chalk-2);
+  font-size: .8rem;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  text-align: center;
+
+  &:hover:not(:disabled) { 
+    background: var(--sun-g); 
+    color: var(--sun); 
+    border-color: var(--sun); 
+  }
+  &.active { 
+    background: linear-gradient(135deg, var(--sun), var(--rose)); 
+    color: #ffffff; 
+    font-weight: 700; 
+    border-color: transparent; 
+  }
+  &:disabled { opacity: .25; cursor: not-allowed; }
+}
+
+// ── Footer ────────────────────────────────────────
+.dp-footer {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rim);
+}
+
+.dp-foot-btn {
+  flex: 1;
+  padding: 7px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--rim);
+  background: var(--surface);
+  color: var(--chalk-2);
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-fast);
+
+  &:hover { 
+    background: var(--sun-g); 
+    color: var(--sun); 
+    border-color: var(--sun); 
+  }
+  &.danger:hover { 
+    background: var(--rose-g); 
+    color: var(--rose); 
+    border-color: var(--rose); 
+  }
+}

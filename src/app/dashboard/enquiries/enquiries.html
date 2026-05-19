@@ -1,0 +1,83 @@
+<!-- ENQUIRIES MODULE -->
+<div class="page">
+
+  <div class="page-hdr">
+    <div>
+      <h1 class="page-title">Enquiries</h1>
+      <p class="page-sub">Leads from all sources</p>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="fee-summary-grid">
+    <div class="fee-sum-card glass">
+      <div class="fsc-icon" style="background:rgba(94,196,255,.12)">🆕</div>
+      <div>
+        <div class="fsc-val" style="color:var(--sky)">{{ newCount }}</div>
+        <div class="fsc-label">New</div>
+      </div>
+    </div>
+    <div class="fee-sum-card glass">
+      <div class="fsc-icon" style="background:rgba(255,179,71,.12)">📞</div>
+      <div>
+        <div class="fsc-val" style="color:var(--sun)">{{ contactedCount }}</div>
+        <div class="fsc-label">Contacted</div>
+      </div>
+    </div>
+    <div class="fee-sum-card glass">
+      <div class="fsc-icon" style="background:rgba(93,220,140,.12)">🎉</div>
+      <div>
+        <div class="fsc-val" style="color:var(--leaf)">{{ convertedCount }}</div>
+        <div class="fsc-label">Converted</div>
+      </div>
+    </div>
+    <div class="fee-sum-card glass">
+      <div class="fsc-icon" style="background:rgba(255,126,179,.12)">📋</div>
+      <div>
+        <div class="fsc-val" style="color:var(--rose)">{{ enquiries().length }}</div>
+        <div class="fsc-label">Total</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="card glass filter-bar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" [(ngModel)]="search" placeholder="Search parent or child...">
+    </div>
+    <select class="filter-select" [(ngModel)]="filterStatus">
+      <option value="">All Status</option>
+      <option>New</option><option>Contacted</option><option>Converted</option><option>Not Interested</option>
+    </select>
+  </div>
+
+  <!-- Enquiry cards -->
+  <div class="enq-grid">
+    <div class="enq-card glass" *ngFor="let e of filtered" (click)="selected = e">
+      <div class="enq-top">
+        <div class="enq-src">{{ sourceIcon(e.source) }} {{ e.source }}</div>
+        <span class="badge" [class]="statusClass(e.status)">{{ e.status }}</span>
+      </div>
+      <div class="enq-names">
+        <div class="enq-parent">{{ e.parentName }}</div>
+        <div class="enq-child">Child: {{ e.childName }} · {{ e.childAge }}</div>
+      </div>
+      <div class="enq-meta">
+        <span>📚 {{ e.program }}</span>
+        <span>📅 {{ e.date }}</span>
+      </div>
+      <div class="enq-msg">{{ e.message }}</div>
+      <div class="enq-actions">
+        <a [href]="'tel:' + e.phone" class="btn-ghost" style="padding:6px 14px;font-size:.75rem" (click)="$event.stopPropagation()">📞 Call</a>
+        <select class="filter-select" style="padding:6px 10px;font-size:.75rem"
+          [(ngModel)]="e.status"
+          (change)="updateStatus(e.id, e.status)"
+          (click)="$event.stopPropagation()">
+          <option>New</option><option>Contacted</option><option>Converted</option><option>Not Interested</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+</div>

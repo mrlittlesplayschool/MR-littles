@@ -1,0 +1,63 @@
+<!-- OWNER LOGIN -->
+<div class="login-shell">
+
+  <div class="login-card glass">
+
+    <!-- Logo -->
+    <div class="login-logo">
+      <div class="login-logo-mark">ML</div>
+      <div>
+        <div class="login-logo-name">Mr. Littles</div>
+        <div class="login-logo-sub">Owner Portal</div>
+      </div>
+    </div>
+
+    <h1 class="login-title">Welcome back</h1>
+    <p class="login-sub">Sign in to manage your school</p>
+
+    <!-- Error -->
+    <div class="login-error" *ngIf="error()">
+      ⚠ {{ error() }}
+    </div>
+
+    <!-- Form -->
+    <div class="login-form">
+
+      <div class="form-field">
+        <label>Email address</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          placeholder="owner@mrlittles.in"
+          (keyup.enter)="onSubmit()">
+      </div>
+
+      <div class="form-field">
+        <label>Password</label>
+        <input
+          type="password"
+          [(ngModel)]="password"
+          placeholder="••••••••"
+          (keyup.enter)="onSubmit()">
+      </div>
+
+      <button class="login-btn" (click)="onSubmit()" [disabled]="loading()">
+        <span *ngIf="!loading()">Sign In →</span>
+        <span *ngIf="loading()">Signing in...</span>
+      </button>
+
+    </div>
+
+    <!-- Switch to teacher -->
+    <div class="login-switch">
+      Are you a teacher?
+      <a routerLink="/teacher-login">Teacher Login →</a>
+    </div>
+
+  </div>
+
+  <!-- Background decoration -->
+  <div class="login-bg-orb orb-1"></div>
+  <div class="login-bg-orb orb-2"></div>
+
+</div>

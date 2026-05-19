@@ -42,3 +42,10 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Zip files
+*.zip
+
+# Environment files (if any secrets)
+.env
+.env.local

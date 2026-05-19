@@ -1,0 +1,304 @@
+/* ================================================
+   MR. LITTLES — Navbar Styles (White Theme)
+   ================================================ */
+
+.nav {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 1160px;
+  height: var(--nav-h);
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--rim-hi);
+  border-radius: var(--r-xl);
+  transition: all 0.4s var(--ease);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+
+  &.scrolled {
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10),
+                0 0 0 1px var(--rim-hi);
+  }
+}
+
+.nav-inner {
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex-shrink: 0;
+  text-decoration: none;
+  cursor: pointer !important;
+
+  &:hover .nav-logo-mark {
+    transform: rotate(10deg) scale(1.1);
+  }
+}
+
+.nav-logo-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--sun), var(--rose));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--f-display);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: white;
+  box-shadow: 0 4px 18px var(--sun-g);
+  transition: transform 0.35s var(--spring);
+  flex-shrink: 0;
+}
+
+.nav-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+
+  .l1 {
+    font-family: var(--f-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--chalk);
+  }
+
+  .l2 {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sun);
+    margin-top: 2px;
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  a {
+    padding: 8px 15px;
+    border-radius: var(--r-full);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--chalk-2);
+    transition: all var(--t-fast);
+    text-decoration: none;
+    cursor: pointer !important;
+    user-select: none;
+
+    &:hover,
+    &.active {
+      color: var(--chalk);
+      background: var(--surface-md);
+      cursor: pointer !important;
+    }
+  }
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.nav-ghost {
+  padding: 8px 16px;
+  border-radius: var(--r-full);
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--chalk-2);
+  border: 1px solid var(--rim-hi);
+  background: var(--surface);
+  transition: all var(--t-fast);
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--chalk);
+    border-color: var(--rim-hi);
+    background: var(--surface-md);
+  }
+}
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 20px;
+  border-radius: var(--r-full);
+  font-family: var(--f-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--sun), #f5a623);
+  box-shadow: 0 4px 18px var(--sun-g);
+  transition: all var(--t-normal);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+
+  svg { transition: transform var(--t-fast); }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--sun-g);
+    svg { transform: translate(2px, -2px); }
+  }
+
+  &.full-w {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: 1px solid var(--rim-hi);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  cursor: pointer;
+  flex-shrink: 0;
+
+  span {
+    display: block;
+    height: 2px;
+    background: var(--chalk-2);
+    border-radius: 2px;
+    transition: all var(--t-normal);
+    transform-origin: center;
+  }
+
+  &.open {
+    span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  }
+}
+
+.nav-drawer {
+  position: absolute;
+  top: calc(var(--nav-h) + 8px);
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--rim-hi);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  transform: translateY(-12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--t-normal);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+
+  &.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.drawer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rim);
+
+  a {
+    padding: 12px 16px;
+    border-radius: var(--r-md);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--chalk-2);
+    transition: all var(--t-fast);
+    text-decoration: none;
+    cursor: pointer !important;
+    user-select: none;
+
+    &:hover,
+    &.active {
+      color: var(--chalk);
+      background: var(--surface-md);
+      cursor: pointer !important;
+    }
+  }
+}
+
+.drawer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.drawer-ghost {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--rim-hi);
+  cursor: pointer !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--chalk-2);
+  background: var(--surface);
+  transition: all var(--t-fast);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--chalk);
+    border-color: var(--rim-hi);
+    background: var(--surface-md);
+  }
+}
+
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-normal);
+
+  &.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+@media (max-width: 840px) {
+  .nav-links,
+  .nav-ghost   { display: none; }
+  .nav-hamburger { display: flex; }
+}
+
+@media (max-width: 600px) {
+  .nav { width: calc(100% - 24px); }
+}

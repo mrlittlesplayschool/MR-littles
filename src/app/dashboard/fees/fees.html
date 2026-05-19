@@ -1,0 +1,272 @@
+<!-- FEES MODULE - REDESIGNED -->
+<div class="page">
+
+  <!-- Page Header -->
+  <div class="page-hdr">
+    <div>
+      <h1 class="page-title">💰 Fees Management</h1>
+      <p class="page-sub">Track payments, dues and receipts • {{ filtered.length }} records</p>
+    </div>
+    <button class="btn-add" (click)="showAddFeeModal = true">+ Add Fee Record</button>
+  </div>
+
+  <!-- Summary Cards Grid -->
+  <div class="fee-summary-grid">
+    <div class="fee-sum-card glass">
+      <div class="fsc-top">
+        <div class="fsc-icon" style="background:var(--sun-g)">
+          <span style="color:var(--sun)">💰</span>
+        </div>
+        <span class="fsc-trend up">+12%</span>
+      </div>
+      <div class="fsc-val" style="color:var(--sun)">{{ fmt(totalFees) }}</div>
+      <div class="fsc-label">Total Fees</div>
+      <div class="fsc-sub">{{ fees().length }} students</div>
+    </div>
+
+    <div class="fee-sum-card glass">
+      <div class="fsc-top">
+        <div class="fsc-icon" style="background:rgba(93,220,140,.12)">
+          <span style="color:var(--leaf)">✅</span>
+        </div>
+        <span class="fsc-trend up">+8%</span>
+      </div>
+      <div class="fsc-val" style="color:var(--leaf)">{{ fmt(totalCollected) }}</div>
+      <div class="fsc-label">Collected</div>
+      <div class="fsc-sub">{{ paidCount }} fully paid</div>
+    </div>
+
+    <div class="fee-sum-card glass">
+      <div class="fsc-top">
+        <div class="fsc-icon" style="background:rgba(255,107,107,.12)">
+          <span style="color:#ff6b6b">⚠️</span>
+        </div>
+        <span class="fsc-trend down">{{ partialCount }} partial</span>
+      </div>
+      <div class="fsc-val" style="color:#ff6b6b">{{ fmt(totalPending) }}</div>
+      <div class="fsc-label">Pending</div>
+      <div class="fsc-sub">{{ pendingCount }} students</div>
+    </div>
+
+    <div class="fee-sum-card glass">
+      <div class="fsc-top">
+        <div class="fsc-icon" style="background:var(--rose-g)">
+          <span style="color:var(--rose)">🔴</span>
+        </div>
+        <span class="fsc-trend urgent">Urgent</span>
+      </div>
+      <div class="fsc-val" style="color:var(--rose)">{{ overdueCount }}</div>
+      <div class="fsc-label">Overdue</div>
+      <div class="fsc-sub">Requires action</div>
+    </div>
+  </div>
+
+  <!-- Filter & Actions Bar -->
+  <div class="card glass filter-bar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" [(ngModel)]="search" placeholder="Search student, parent, or phone...">
+    </div>
+    
+    <select class="filter-select" [(ngModel)]="filterStatus" (change)="applyFilters()">
+      <option value="">All Status</option>
+      <option value="Paid">Paid</option>
+      <option value="Pending">Pending</option>
+      <option value="Partial">Partial</option>
+      <option value="Overdue">Overdue</option>
+    </select>
+
+    <select class="filter-select" [(ngModel)]="filterProgram" (change)="applyFilters()">
+      <option value="">All Programs</option>
+      <option value="Playgroup">Playgroup</option>
+      <option value="Nursery">Nursery</option>
+      <option value="Junior KG">Junior KG</option>
+      <option value="Senior KG">Senior KG</option>
+    </select>
+
+    <button class="btn-ghost" (click)="exportToCSV()">
+      📊 Export
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading()">
+    <div class="spinner"></div>
+    <p>Loading fees data...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state glass" *ngIf="!loading() && filtered.length === 0">
+    <div class="empty-icon">📋</div>
+    <h3>No Fee Records Found</h3>
+    <p *ngIf="search || filterStatus || filterProgram">Try adjusting your filters</p>
+    <p *ngIf="!search && !filterStatus && !filterProgram">Start by adding fee records for students</p>
+    <button class="btn-add" (click)="showAddFeeModal = true">+ Add First Fee Record</button>
+  </div>
+
+  <!-- Fees Table -->
+  <div class="card glass fees-table-card" *ngIf="!loading() && filtered.length > 0">
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Student Details</th>
+            <th>Program</th>
+            <th>Fee Plan</th>
+            <th>Month</th>
+            <th>Total Fee</th>
+            <th>Paid</th>
+            <th>Balance</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let f of filtered; let i = index" [class.highlight]="f.status === 'Overdue'">
+            <td>
+              <div class="td-student">
+                <div class="td-av" [style.background]="getAvatarColor(i)">
+                  {{ f.studentName.split(' ').map(w => w[0]).join('').slice(0,2) }}
+                </div>
+                <div class="td-info">
+                  <div class="td-name">{{ f.studentName }}</div>
+                  <div class="td-sub">{{ f.parentName }}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="program-badge" [style.background]="getProgramColor(f.program)">
+                {{ f.program }}
+              </span>
+            </td>
+            <td>
+              <span class="badge badge-blue">{{ f.feePlan }}</span>
+            </td>
+            <td>
+              <span class="month-badge">{{ f.month || 'N/A' }}</span>
+            </td>
+            <td>
+              <span class="fee-amount">{{ fmt(f.totalFee) }}</span>
+            </td>
+            <td>
+              <span class="fee-amount paid">{{ fmt(f.paidAmount) }}</span>
+              <div class="progress-bar" *ngIf="f.totalFee > 0">
+                <div class="progress-fill" [style.width.%]="(f.paidAmount / f.totalFee) * 100"></div>
+              </div>
+            </td>
+            <td>
+              <span class="fee-amount" [class.pending]="f.totalFee - f.paidAmount > 0" [class.paid]="f.totalFee - f.paidAmount === 0">
+                {{ fmt(f.totalFee - f.paidAmount) }}
+              </span>
+            </td>
+            <td>
+              <div class="due-date" [class.overdue]="isOverdue(f.dueDate) && f.status !== 'Paid'">
+                <span class="date-icon">📅</span>
+                <span>{{ f.dueDate }}</span>
+              </div>
+            </td>
+            <td>
+              <span class="badge" [class]="statusClass(f.status)">
+                {{ f.status }}
+              </span>
+            </td>
+            <td>
+              <div class="action-btns">
+                <button class="btn-collect" *ngIf="f.status !== 'Paid'" (click)="openPayment(f)" title="Collect Payment">
+                  💳 Collect
+                </button>
+                <button class="icon-btn" (click)="viewDetails(f)" title="View Details">
+                  👁️
+                </button>
+                <button class="icon-btn" (click)="sendReminder(f)" title="Send Reminder" *ngIf="f.status !== 'Paid'">
+                  📧
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Payment Collection Modal -->
+  <div class="modal-backdrop" *ngIf="showPaymentModal" (click)="showPaymentModal=false"></div>
+  <div class="modal glass" *ngIf="showPaymentModal && selectedFee">
+    <div class="modal-hdr">
+      <h2 class="modal-title">💳 Collect Payment</h2>
+      <button class="modal-close" (click)="showPaymentModal=false">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="payment-summary">
+        <div class="student-info">
+          <div class="student-av">{{ selectedFee.studentName.charAt(0) }}</div>
+          <div>
+            <div class="student-name">{{ selectedFee.studentName }}</div>
+            <div class="student-program">{{ selectedFee.program }} • {{ selectedFee.month }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pay-info">
+        <div class="pay-row">
+          <span>Total Fee</span>
+          <strong>{{ fmt(selectedFee.totalFee) }}</strong>
+        </div>
+        <div class="pay-row">
+          <span>Already Paid</span>
+          <strong style="color:var(--leaf)">{{ fmt(selectedFee.paidAmount) }}</strong>
+        </div>
+        <div class="pay-row highlight">
+          <span>Balance Due</span>
+          <strong style="color:#ff6b6b">{{ fmt(selectedFee.totalFee - selectedFee.paidAmount) }}</strong>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Amount to Collect (₹) *</label>
+        <input type="number" [(ngModel)]="payAmount" 
+          [max]="selectedFee.totalFee - selectedFee.paidAmount"
+          placeholder="Enter amount">
+      </div>
+
+      <div class="form-field">
+        <label>Payment Method</label>
+        <select [(ngModel)]="paymentMethod">
+          <option value="Cash">Cash</option>
+          <option value="UPI">UPI</option>
+          <option value="Card">Card</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+          <option value="Cheque">Cheque</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label>Notes (Optional)</label>
+        <textarea [(ngModel)]="paymentNotes" placeholder="Add any notes..." rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" (click)="showPaymentModal=false">Cancel</button>
+      <button class="btn-add" (click)="collectPayment()">✅ Confirm Payment</button>
+    </div>
+  </div>
+
+  <!-- Add Fee Modal -->
+  <div class="modal-backdrop" *ngIf="showAddFeeModal" (click)="showAddFeeModal=false"></div>
+  <div class="modal glass" *ngIf="showAddFeeModal">
+    <div class="modal-hdr">
+      <h2 class="modal-title">+ Add Fee Record</h2>
+      <button class="modal-close" (click)="showAddFeeModal=false">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--chalk-3);font-size:.85rem;margin-bottom:16px">
+        This feature will be available soon. Fee records are currently auto-generated for enrolled students.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" (click)="showAddFeeModal=false">Close</button>
+    </div>
+  </div>
+
+</div>

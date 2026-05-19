@@ -1,0 +1,152 @@
+<!-- ================================================
+     MR. LITTLES — Footer Component
+     Includes Owner Login & Teacher Login portals
+     ================================================ -->
+<footer class="footer">
+
+  <!-- Background orbs -->
+  <div class="orb o-sun"  style="width:500px;height:500px;top:-200px;left:-150px;opacity:.09"></div>
+  <div class="orb o-sky"  style="width:400px;height:400px;bottom:-100px;right:-100px;opacity:.09"></div>
+
+  <!-- Top separator -->
+  <div class="f-div"></div>
+
+  <div class="container footer-main">
+
+    <!-- ── Brand Column ── -->
+    <div class="f-brand">
+      <a routerLink="/" class="f-logo">
+        <div class="f-logo-mark">ML</div>
+        <div>
+          <div class="f-logo-name">Mr. Littles</div>
+          <div class="f-logo-sub">Play School</div>
+        </div>
+      </a>
+
+      <p class="f-desc">
+        Chennai's newest premium play school — built fresh, built with purpose.
+        Nurturing curious minds and joyful hearts, one little learner at a time.
+      </p>
+
+      <!-- Startup badge -->
+      <div class="f-startup-badge">
+        <span class="fsb-icon">🚀</span>
+        <div>
+          <div class="fsb-t">New Branch — First Launch</div>
+          <div class="fsb-s">Chennai · Est. 2025</div>
+        </div>
+      </div>
+
+      <!-- Socials -->
+      <div class="f-socials">
+        <a href="#" class="f-soc" title="Instagram" target="_blank">📷</a>
+        <a href="#" class="f-soc" title="Facebook"  target="_blank">📘</a>
+        <a href="#" class="f-soc" title="YouTube"   target="_blank">▶</a>
+        <a href="#" class="f-soc" title="WhatsApp"  target="_blank">💬</a>
+      </div>
+    </div>
+
+    <!-- ── Explore Links ── -->
+    <div class="f-col">
+      <div class="f-col-t">Explore</div>
+      <div class="f-links">
+        <a routerLink="/">🏠 Home</a>
+        <a routerLink="/about">🌟 About Us</a>
+        <a routerLink="/programs">📚 Programs</a>
+        <a routerLink="/contact">📬 Contact</a>
+      </div>
+    </div>
+
+    <!-- ── Programs ── -->
+    <div class="f-col">
+      <div class="f-col-t">Programs</div>
+      <div class="f-links">
+        <a routerLink="/programs">🌱 Playgroup · 1.5–2.5 yrs</a>
+        <a routerLink="/programs">🦋 Nursery · 2.5–3.5 yrs</a>
+        <a routerLink="/programs">🚀 Junior KG · 3.5–4.5 yrs</a>
+        <a routerLink="/programs">⭐ Senior KG · 4.5–6 yrs</a>
+      </div>
+
+      <!-- Admissions mini box -->
+      <div class="f-admit-box">
+        <div class="f-admit-yr">🎓 2026–27 Now Open</div>
+        <div class="f-admit-sub">Limited founding seats available</div>
+        <a routerLink="/contact" class="f-admit-link">Apply Now →</a>
+      </div>
+    </div>
+
+    <!-- ── Contact + Staff Portals ── -->
+    <div class="f-col">
+      <div class="f-col-t">Get In Touch</div>
+      <div class="f-info">
+        <div class="f-info-item">
+          <span class="f-info-icon">📍</span>
+          <span>123 Little Stars Lane,<br>Anna Nagar, Chennai — 600040</span>
+        </div>
+        <div class="f-info-item">
+          <span class="f-info-icon">📞</span>
+          <a href="tel:+919876543210">+91 98765 43210</a>
+        </div>
+        <div class="f-info-item">
+          <span class="f-info-icon">✉️</span>
+          <a href="mailto:hello@mrlittles.in">hello&#64;mrlittles.in</a>
+        </div>
+        <div class="f-info-item">
+          <span class="f-info-icon">🕐</span>
+          <span>Mon–Sat · 8:00 AM – 6:00 PM</span>
+        </div>
+      </div>
+
+      <!-- ── Staff Portals ── -->
+      <div class="f-staff-area">
+        <div class="f-col-t">Staff Portals</div>
+        <div class="f-staff-links">
+
+          <!-- Owner Login -->
+          <a (click)="goToOwnerLogin()" class="f-staff-link" role="button">
+            <span class="sl-icon">🔑</span>
+            <div>
+              <div class="sl-title">Owner Login</div>
+              <div class="sl-sub">Full dashboard access</div>
+            </div>
+            <svg class="sl-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+
+          <!-- Teacher Login -->
+          <a (click)="goToTeacherLogin()" class="f-staff-link" role="button">
+            <span class="sl-icon">👩‍🏫</span>
+            <div>
+              <div class="sl-title">Teacher Login</div>
+              <div class="sl-sub">Attendance &amp; student access</div>
+            </div>
+            <svg class="sl-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Bottom Bar ── -->
+  <div class="f-bottom">
+    <div class="container f-bot-inner">
+      <p class="f-copy">© {{ currentYear }} Mr. Littles Play School. All rights reserved.</p>
+      <div class="f-bot-links">
+        <a href="#">Privacy Policy</a>
+        <span class="f-bot-dot">·</span>
+        <a href="#">Terms of Use</a>
+        <span class="f-bot-dot">·</span>
+        <a href="#">Sitemap</a>
+      </div>
+      <p class="f-made">Made with <span class="heart">♥</span> in Chennai</p>
+    </div>
+  </div>
+
+</footer>

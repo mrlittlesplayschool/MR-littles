@@ -1,1 +1,336 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================================
+   MR. LITTLES — Global Styles & Design Tokens
+   White Theme Edition · 2026–27
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+/* ── Design Tokens ── */
+:root {
+  /* Background — White based */
+  --ink:          #ffffff;
+  --ink-2:        #f7f8fc;
+  --ink-3:        #eef0f6;
+
+  /* Surfaces */
+  --surface:      rgba(0, 0, 0, 0.03);
+  --surface-md:   rgba(0, 0, 0, 0.055);
+  --surface-hi:   rgba(0, 0, 0, 0.09);
+
+  /* Borders */
+  --rim:          rgba(0, 0, 0, 0.08);
+  --rim-hi:       rgba(0, 0, 0, 0.15);
+
+  /* Brand Colors */
+  --sun:          #e8820c;
+  --sun-g:        rgba(232, 130, 12, 0.20);
+  --sky:          #1a8fd1;
+  --sky-g:        rgba(26, 143, 209, 0.20);
+  --leaf:         #22a05a;
+  --rose:         #e0467c;
+  --rose-g:       rgba(224, 70, 124, 0.18);
+
+  /* Text */
+  --chalk:        #1a1c24;
+  --chalk-2:      rgba(26, 28, 36, 0.62);
+  --chalk-3:      rgba(26, 28, 36, 0.36);
+
+  /* Typography */
+  --f-display:    'Cormorant Garamond', serif;
+  --f-body:       'Instrument Sans', sans-serif;
+
+  /* Radius */
+  --r-sm:         8px;
+  --r-md:         16px;
+  --r-lg:         24px;
+  --r-xl:         36px;
+  --r-2xl:        56px;
+  --r-full:       9999px;
+
+  /* Layout */
+  --nav-h:        76px;
+
+  /* Easing */
+  --ease:         cubic-bezier(0.4, 0, 0.2, 1);
+  --spring:       cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Transitions */
+  --t-fast:       0.2s var(--ease);
+  --t-normal:     0.35s var(--ease);
+  --t-slow:       0.6s var(--ease);
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--f-body);
+  background: var(--ink);
+  color: var(--chalk);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar        { width: 5px; }
+::-webkit-scrollbar-track  { background: var(--ink-3); }
+::-webkit-scrollbar-thumb  {
+  background: linear-gradient(var(--sun), var(--rose));
+  border-radius: 99px;
+}
+
+/* ── Typography ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--f-display);
+  line-height: 1.08;
+  color: var(--chalk);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+em {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-weight: 400;
+}
+
+p { color: var(--chalk-2); }
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color var(--t-fast);
+}
+
+a[role="button"],
+a[onclick] {
+  cursor: pointer !important;
+}
+
+img { max-width: 100%; display: block; }
+ul  { list-style: none; }
+
+/* ── Layout Utilities ── */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.sp { padding: 100px 0; }
+
+/* ── Glass Utility ── */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--rim);
+  border-radius: var(--r-lg);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+
+/* ── Gradient Text Utilities ── */
+.gt-sun {
+  font-style: italic;
+  background: linear-gradient(120deg, var(--sun), var(--rose));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gt-sky {
+  font-style: italic;
+  background: linear-gradient(120deg, var(--sky), #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gt-leaf {
+  font-style: italic;
+  background: linear-gradient(120deg, var(--leaf), var(--sky));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Chip / Badge ── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 14px;
+  border-radius: var(--r-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  background: var(--surface-md);
+  border: 1px solid var(--rim-hi);
+  color: var(--chalk-2);
+}
+
+.chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--leaf);
+  animation: blink 2s ease infinite;
+  display: inline-block;
+}
+
+/* ── Orbs ── */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+
+  &.o-sun  { background: radial-gradient(circle, rgba(232,130,12,.14),  transparent 70%); }
+  &.o-sky  { background: radial-gradient(circle, rgba(26,143,209,.12),  transparent 70%); }
+  &.o-rose { background: radial-gradient(circle, rgba(224,70,124,.12), transparent 70%); }
+  &.o-leaf { background: radial-gradient(circle, rgba(34,160,90,.10),  transparent 70%); }
+}
+
+/* ── Shared Buttons ── */
+.btn-sun {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 30px;
+  border-radius: var(--r-full);
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--sun), #f5a623);
+  box-shadow: 0 6px 28px var(--sun-g);
+  border: none;
+  cursor: pointer;
+  transition: all var(--t-normal);
+  text-decoration: none;
+
+  svg { transition: transform var(--t-fast); }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 44px var(--sun-g);
+    svg { transform: translateX(4px); }
+  }
+
+  &:active { transform: translateY(0); }
+  &.full-w { width: 100%; justify-content: center; }
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 28px;
+  border-radius: var(--r-full);
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--chalk-2);
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--rim-hi);
+  transition: all var(--t-normal);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--chalk);
+    border-color: rgba(0,0,0,0.25);
+    transform: translateY(-2px);
+    background: white;
+  }
+}
+
+/* ── Section Header ── */
+.sec-hd {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 56px;
+
+  .chip { margin-bottom: 14px; }
+}
+
+.sec-h {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
+  line-height: 1.1;
+}
+
+.sec-p {
+  font-size: 0.95rem;
+  color: var(--chalk-2);
+  line-height: 1.75;
+}
+
+/* ── Keyframes ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-16px); }
+}
+
+@keyframes float-r {
+  0%, 100% { transform: translateY(0) rotate(3deg); }
+  50%       { transform: translateY(-12px) rotate(-3deg); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.2); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes spin-rev {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(232, 130, 12, 0.25); }
+  50%       { box-shadow: 0 0 50px rgba(232, 130, 12, 0.45); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.85) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ── Responsive base ── */
+@media (max-width: 768px) {
+  :root { --nav-h: 68px; }
+  .sp { padding: 72px 0; }
+}

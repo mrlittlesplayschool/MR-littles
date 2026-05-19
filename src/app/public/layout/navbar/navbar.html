@@ -1,0 +1,104 @@
+<!-- ================================================
+     MR. LITTLES — Navbar Component
+     Scroll-spy links · smooth scroll to sections
+     ================================================ -->
+<nav class="nav" [class.scrolled]="isScrolled" [class.menu-open]="menuOpen">
+
+  <div class="nav-inner">
+
+    <!-- ── Logo → scrolls to top ── -->
+    <a class="nav-logo" (click)="scrollTo('hero')" role="button" style="cursor:pointer">
+      <div class="nav-logo-mark">ML</div>
+      <div class="nav-logo-text">
+        <span class="l1">Mr. Littles</span>
+        <span class="l2">Play School</span>
+      </div>
+    </a>
+
+    <!-- ── Desktop Links ── -->
+    <div class="nav-links">
+      <a (click)="scrollTo('hero')"
+         [class.active]="activeSection === 'hero'"
+         role="button">
+        Home
+      </a>
+      <a (click)="scrollTo('our-story')"
+         [class.active]="activeSection === 'our-story'"
+         role="button">
+        Our Story
+      </a>
+      <a (click)="scrollTo('programs')"
+         [class.active]="activeSection === 'programs'"
+         role="button">
+        Our Programs
+      </a>
+      <a (click)="scrollTo('contact')"
+         [class.active]="activeSection === 'contact'"
+         role="button">
+        Contact
+      </a>
+    </div>
+
+    <!-- ── Desktop Actions ── -->
+    <div class="nav-actions">
+      <a (click)="scrollTo('contact')" class="nav-ghost" role="button">Enquire</a>
+      <a (click)="scrollTo('contact')" class="nav-cta" role="button">
+        Book a Visit
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="7" y1="7" x2="17" y2="17"/>
+          <polyline points="7 17 17 17 17 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- ── Hamburger ── -->
+    <button
+      class="nav-hamburger"
+      [class.open]="menuOpen"
+      (click)="toggleMenu()"
+      aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+
+  <!-- ── Mobile Drawer ── -->
+  <div class="nav-drawer" [class.open]="menuOpen">
+    <div class="drawer-links">
+      <a (click)="scrollTo('hero')"
+         [class.active]="activeSection === 'hero'"
+         role="button">
+        🏠 Home
+      </a>
+      <a (click)="scrollTo('our-story')"
+         [class.active]="activeSection === 'our-story'"
+         role="button">
+        🌟 Our Story
+      </a>
+      <a (click)="scrollTo('programs')"
+         [class.active]="activeSection === 'programs'"
+         role="button">
+        📚 Our Programs
+      </a>
+      <a (click)="scrollTo('contact')"
+         [class.active]="activeSection === 'contact'"
+         role="button">
+        📬 Contact
+      </a>
+    </div>
+    <div class="drawer-actions">
+      <a (click)="scrollTo('contact')" class="drawer-ghost" role="button">Enquire</a>
+      <a (click)="scrollTo('contact')" class="nav-cta full-w" role="button">Book a Visit ↗</a>
+    </div>
+  </div>
+
+</nav>
+
+<!-- Overlay -->
+<div
+  class="nav-overlay"
+  [class.visible]="menuOpen"
+  (click)="closeMenu()">
+</div>

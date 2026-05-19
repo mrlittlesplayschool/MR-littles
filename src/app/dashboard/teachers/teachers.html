@@ -1,0 +1,239 @@
+<!-- TEACHERS MODULE -->
+<div class="page">
+
+  <div class="page-hdr">
+    <div>
+      <h1 class="page-title">Teachers</h1>
+      <p class="page-sub">{{ teachers().length }} staff members</p>
+    </div>
+    <button class="btn-add" (click)="openAdd()">+ Add Teacher</button>
+  </div>
+
+  <!-- Salary summary -->
+  <div class="fee-summary-grid">
+    <div class="fee-sum-card glass">
+      <div class="fsc-icon" style="background:rgba(94,196,255,.12)">👩‍🏫</div>
+      <div>
+        <div class="fsc-val" style="color:var(--sky)">{{ teachers().length }}</div>
+        <div class="fsc-label">Total Staff</div>
+      </div>
+    </div>
+    <div class="fee-sum-card glass">
+      <div class="fsc-icon" style="background:rgba(93,220,140,.12)">💰</div>
+      <div>
+        <div class="fsc-val" style="color:var(--leaf)">{{ fmt(totalSalary) }}</div>
+        <div class="fsc-label">Monthly Payroll</div>
+      </div>
+    </div>
+    <div class="fee-sum-card glass">
+      <div class="fsc-icon" style="background:rgba(255,179,71,.12)">✅</div>
+      <div>
+        <div class="fsc-val" style="color:var(--sun)">{{ fmt(totalSalary - pendingSalary) }}</div>
+        <div class="fsc-label">Salary Paid</div>
+      </div>
+    </div>
+    <div class="fee-sum-card glass">
+      <div class="fsc-icon" style="background:rgba(255,107,107,.12)">⏳</div>
+      <div>
+        <div class="fsc-val" style="color:#ff6b6b">{{ fmt(pendingSalary) }}</div>
+        <div class="fsc-label">Salary Pending</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="card glass filter-bar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" [(ngModel)]="search" placeholder="Search teacher or role...">
+    </div>
+  </div>
+
+  <!-- Teachers cards grid -->
+  <div class="teacher-grid">
+    <div class="teacher-card glass" *ngFor="let t of filtered; let i = index">
+      <div class="tc-top">
+        <div class="tc-av" [style.background]="avColor(i)">{{ t.avatar }}</div>
+        <div class="tc-info">
+          <div class="tc-name">{{ t.name }}</div>
+          <div class="tc-role">{{ t.role }}</div>
+          <span class="badge badge-blue">{{ t.program }}</span>
+        </div>
+        <div class="action-btns" style="align-self:flex-start">
+          <button class="icon-btn" title="Edit teacher" (click)="openEdit(t)">✏️</button>
+          <button class="icon-btn danger" title="Delete teacher" (click)="deleteTeacher(t.id)">🗑️</button>
+        </div>
+      </div>
+      <div class="tc-details">
+        <div class="tc-detail-row">
+          <span>📞</span><span>{{ t.phone }}</span>
+        </div>
+        <div class="tc-detail-row">
+          <span>✉️</span><span>{{ t.email }}</span>
+        </div>
+        <div class="tc-detail-row">
+          <span>📅</span><span>Joined {{ t.joinDate }}</span>
+        </div>
+      </div>
+      <div class="tc-footer">
+        <div class="tc-salary">
+          <span class="tc-salary-val">{{ fmt(t.salary) }}</span>
+          <span class="tc-salary-label">/month</span>
+        </div>
+        <div class="tc-salary-actions">
+          <span class="badge" [class]="t.salaryStatus === 'Paid' ? 'badge-green' : 'badge-yellow'">
+            {{ t.salaryStatus === 'Paid' ? '✅ Paid' : '⏳ Pending' }}
+          </span>
+          <button class="btn-ghost" style="padding:5px 12px;font-size:.72rem"
+            *ngIf="t.salaryStatus === 'Pending'"
+            (click)="markSalaryPaid(t.id)">
+            Pay Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ADD / EDIT MODAL
+  ══════════════════════════════════════════ -->
+  <div class="modal-backdrop" *ngIf="showForm" (click)="closeForm()"></div>
+
+  <div class="modal glass" *ngIf="showForm" (click)="$event.stopPropagation()">
+    <div class="modal-hdr">
+      <h2 class="modal-title">{{ editMode ? 'Edit Teacher' : 'Create Teacher Account' }}</h2>
+      <button class="modal-close" (click)="closeForm()">✕</button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- ── Section: Basic Info ── -->
+      <div class="form-section-label">Basic Information</div>
+      <div class="form-grid">
+
+        <div class="form-field span-2">
+          <label>Full Name *</label>
+          <input [(ngModel)]="newTeacher.name" placeholder="e.g. Meera Krishnan">
+        </div>
+
+        <div class="form-field">
+          <label>Role</label>
+          <select [(ngModel)]="newTeacher.role">
+            <option>Lead Teacher</option>
+            <option>Class Teacher</option>
+            <option>Assistant</option>
+            <option>Activity Teacher</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Assigned Program</label>
+          <select [(ngModel)]="newTeacher.program">
+            <option>Playgroup</option>
+            <option>Nursery</option>
+            <option>Junior KG</option>
+            <option>Senior KG</option>
+            <option>All</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Monthly Salary (₹)</label>
+          <input type="number" [(ngModel)]="newTeacher.salary" placeholder="e.g. 25000">
+        </div>
+
+        <div class="form-field">
+          <label>Phone</label>
+          <input [(ngModel)]="newTeacher.phone" placeholder="+91 XXXXX XXXXX">
+        </div>
+
+        <div class="form-field span-2">
+          <label>Email Address *</label>
+          <input type="email" [(ngModel)]="newTeacher.email" placeholder="name@mrlittles.in">
+        </div>
+
+      </div>
+
+      <!-- ── Section: Login Credentials ── -->
+      <div class="form-section-label" style="margin-top:20px">
+        🔐 Login Credentials
+        <span class="section-hint" *ngIf="editMode">Leave blank to keep existing password</span>
+      </div>
+      <div class="form-grid">
+
+        <!-- Password -->
+        <div class="form-field">
+          <label>{{ editMode ? 'New Password' : 'Set Password' }} <span *ngIf="!editMode" class="req-star">*</span></label>
+          <div class="input-eye-wrap">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              [(ngModel)]="newTeacher.password"
+              placeholder="Min. 8 characters">
+            <button type="button" class="eye-btn"
+              (click)="showPassword = !showPassword"
+              [title]="showPassword ? 'Hide password' : 'Show password'">
+              {{ showPassword ? '🙈' : '👁️' }}
+            </button>
+          </div>
+          <!-- Strength meter -->
+          <div class="pw-strength-row" *ngIf="newTeacher.password">
+            <div class="pw-bar-track">
+              <div class="pw-bar-fill"
+                [class]="passwordStrength.cls"
+                [style.width]="passwordStrength.pct + '%'">
+              </div>
+            </div>
+            <span class="pw-strength-label" [class]="passwordStrength.cls">
+              {{ passwordStrength.label }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-field">
+          <label>Confirm Password <span *ngIf="!editMode" class="req-star">*</span></label>
+          <div class="input-eye-wrap">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              [(ngModel)]="newTeacher.confirmPassword"
+              placeholder="Re-enter password">
+            <button type="button" class="eye-btn"
+              (click)="showConfirmPassword = !showConfirmPassword"
+              title="Toggle visibility">
+              {{ showConfirmPassword ? '🙈' : '👁️' }}
+            </button>
+          </div>
+          <span class="pw-mismatch" *ngIf="passwordMismatch">Passwords do not match</span>
+        </div>
+
+      </div>
+
+      <!-- Generate password row -->
+      <div class="generate-row">
+        <button type="button" class="btn-ghost btn-gen" (click)="generatePassword()">
+          🔑 Generate Strong Password
+        </button>
+        <div class="gen-pw-box" *ngIf="generatedPassword">
+          <code class="gen-pw-code">{{ generatedPassword }}</code>
+          <button type="button" class="btn-copy" (click)="copyPassword()">
+            {{ copyLabel }}
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /.modal-body -->
+
+    <div class="modal-footer">
+      <button class="btn-ghost" (click)="closeForm()">Cancel</button>
+      <button class="btn-add" (click)="saveTeacher()" [disabled]="passwordMismatch">
+        {{ editMode ? '💾 Save Changes' : '✅ Create Account' }}
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast notification -->
+<div class="toast-wrap" *ngIf="toastVisible" [class]="'toast-' + toastType">
+  {{ toastMsg }}
+</div>

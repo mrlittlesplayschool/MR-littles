@@ -1,0 +1,464 @@
+<!-- ================================================
+     MR. LITTLES — Home Page
+     Sections: Hero · Marquee · Our Story · Admissions ·
+               Programs · Why Us · Testimonials · Contact
+     ================================================ -->
+<main class="home">
+
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="orb o-sun"  style="width:700px;height:700px;top:-200px;left:-200px;opacity:.45"></div>
+    <div class="orb o-sky"  style="width:500px;height:500px;top:80px;right:-150px;opacity:.32"></div>
+    <div class="orb o-rose" style="width:300px;height:300px;bottom:0;left:38%;opacity:.22"></div>
+    <div class="hero-grid"></div>
+
+    <div class="container hero-inner">
+
+      <!-- Left: Copy -->
+      <div class="hero-copy">
+
+        <!-- Launch ribbon -->
+        <div class="launch-ribbon">
+          <div class="ribbon-orb">🚀</div>
+          <span class="ribbon-t">Avadi's Newest Play School — Now Open!</span>
+        </div>
+
+        <h1 class="hero-h1">
+          Where Every<br>
+          Morning<br>
+          is <span class="gt-sun">Magic</span>
+        </h1>
+
+        <p class="hero-sub">
+          Mr. Littles is Chennai's brand-new premium play school — built fresh, built with love.
+          A space where tiny hands create, curious minds explore, and confident futures begin.
+        </p>
+
+        <div class="hero-btns">
+          <a (click)="scrollToSection('contact')" class="btn-sun" role="button" style="cursor:pointer">
+            Book a Free Visit
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+          <a (click)="scrollToSection('programs')" class="btn-outline" role="button" style="cursor:pointer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polygon points="10 8 16 12 10 16 10 8"/>
+            </svg>
+            Our Programs
+          </a>
+        </div>
+
+        <!-- Pill row -->
+        <div class="pill-row">
+          <div class="chip">
+            <span class="chip-dot"></span>
+            Admissions Open — 2026–27
+          </div>
+          <div class="chip chip-sun">
+            🎉 First Branch Launch
+          </div>
+        </div>
+
+        <!-- Proof bar -->
+        <div class="proof-bar">
+          <div class="proof-avs">
+            <span>👩</span><span>👨</span><span>👩</span><span>👨</span><span>👩</span>
+          </div>
+          <div class="proof-t">
+            <p>50+ families already enrolled</p>
+            <p>Be part of our founding batch — limited seats!</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Visual -->
+      <div class="hero-visual">
+        <div class="hero-scene">
+
+          <!-- Orbit rings -->
+          <div class="orbit orbit-1">
+            <div class="orbit-dot od-1"></div>
+            <div class="orbit-dot od-2"></div>
+          </div>
+          <div class="orbit orbit-2">
+            <div class="orbit-dot od-3"></div>
+          </div>
+
+          <!-- Main card -->
+          <div class="h-card-main glass">
+            <div class="h-card-hdr">
+              <div class="school-orb">🌟</div>
+              <div>
+                <div class="hc-title">Mr. Littles</div>
+                <div class="hc-sub">First Branch · 2025</div>
+              </div>
+            </div>
+            <div class="act-grid">
+              <div class="act" *ngFor="let a of activities">
+                <span>{{ a.icon }}</span>
+                <span>{{ a.label }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating mini badges -->
+          <div class="h-mini glass hm-1">
+            <span class="hm-icon">🎉</span>
+            <div><div class="hm-t">Now Enrolling</div><div class="hm-s">2026–27 Batch</div></div>
+          </div>
+          <div class="h-mini glass hm-2">
+            <span class="hm-icon">📍</span>
+            <div><div class="hm-t">Chennai</div><div class="hm-s">Avadi</div></div>
+          </div>
+          <div class="h-mini glass hm-3">
+            <span class="hm-icon">⭐</span>
+            <div><div class="hm-t">Ages 1.5–6</div><div class="hm-s">All Programs</div></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="scroll-cue">
+      <div class="scroll-track"><div class="scroll-knob"></div></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       MARQUEE TICKER
+  ════════════════════════════════════════════ -->
+  <div class="mq-section">
+    <div class="mq-track">
+      <!-- Doubled for seamless loop -->
+      <ng-container *ngFor="let _ of [1, 2]">
+        <div class="mq-item" *ngFor="let item of marqueeItems">
+          <span class="mq-dot"></span>
+          {{ item }}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       ABOUT
+  ════════════════════════════════════════════ -->
+  <section class="about sp" id="our-story">
+    <div class="orb o-sky" style="width:450px;height:450px;top:0;right:-80px;opacity:.22"></div>
+
+    <div class="container about-inner">
+
+      <!-- Left: Story visual card -->
+      <div class="story-stack">
+        <div class="story-bg"></div>
+        <div class="story-card glass">
+          <div class="sc-header">
+            <div class="sc-orb">🌟</div>
+            <div>
+              <div class="sc-title">Our Story</div>
+              <div class="sc-sub">Founded 2025 · Chennai</div>
+            </div>
+          </div>
+          <p class="sc-body">
+            Born from a simple belief — that every child deserves a world-class, joyful start.
+            Mr. Littles is built fresh with love and modern pedagogy, right here in Chennai.
+          </p>
+          <div class="story-stats">
+            <div class="ss"><div class="ss-n gt-sun">50+</div><div class="ss-l">Founding Families</div></div>
+            <div class="ss"><div class="ss-n gt-sky">4</div><div class="ss-l">Programs</div></div>
+            <div class="ss"><div class="ss-n gt-leaf">1.5–6</div><div class="ss-l">Age Group</div></div>
+          </div>
+        </div>
+        <div class="story-float">
+          <span style="font-size:1.3rem">🎉</span>
+          <div>
+            <div class="sf-t">Admissions Open</div>
+            <div class="sf-s">2026 – 2027 Academic Year</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Copy -->
+      <div class="about-copy">
+        <div class="chip">Our Story</div>
+
+        <h2 class="about-h">
+          A Brand New Start,<br>
+          <span class="gt-sun">Built with Purpose</span>
+        </h2>
+
+        <p class="about-p">
+          Mr. Littles is Chennai's newest premium play school — and we're proud of it.
+          Starting fresh means every detail has been thoughtfully designed for today's children:
+          modern spaces, a balanced curriculum, and teachers who genuinely care.
+        </p>
+        <p class="about-p">
+          As our founding families, you're not just enrolling your child — you're helping shape
+          a legacy. We're building something extraordinary together, one little learner at a time.
+        </p>
+
+        <div class="feat-list">
+          <div class="feat glass" *ngFor="let f of features">
+            <div class="feat-icon" [style.background]="f.bg">{{ f.icon }}</div>
+            <div>
+              <div class="feat-title">{{ f.title }}</div>
+              <div class="feat-desc">{{ f.desc }}</div>
+            </div>
+          </div>
+        </div>
+
+        <a (click)="scrollToSection('contact')" class="btn-sun" style="width:fit-content;cursor:pointer" role="button">
+          Book a School Tour
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       ADMISSIONS BANNER
+  ════════════════════════════════════════════ -->
+  <div class="admit-banner">
+    <div class="orb o-sun" style="width:500px;height:500px;top:-200px;right:-100px;opacity:.28"></div>
+
+    <div class="container admit-inner">
+      <div class="admit-copy">
+        <div class="chip chip-sun" style="margin-bottom:14px">🎓 Admissions Now Open</div>
+        <h2 class="admit-h">
+          Secure Your Child's Spot<br>
+          <span class="gt-sun">Before It's Gone</span>
+        </h2>
+        <p class="admit-p">
+          We're accepting applications for our 2026–2027 academic year. As our first batch,
+          seats are strictly limited — enrol now and be part of something truly special.
+        </p>
+      </div>
+
+      <div class="admit-badge">
+        <div class="yr">2026<br>—<br>2027</div>
+        <div class="yr-l">Academic Year</div>
+      </div>
+
+      <div class="admit-actions">
+        <a (click)="scrollToSection('contact')" class="btn-sun" role="button" style="cursor:pointer">Apply Now ↗</a>
+        <a (click)="scrollToSection('contact')" class="btn-outline" role="button" style="cursor:pointer">Download Brochure</a>
+        <span class="admit-note">⚡ Limited founding batch seats</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       PROGRAMS
+  ════════════════════════════════════════════ -->
+  <section class="programs sp" id="programs">
+    <div class="orb o-rose" style="width:400px;height:400px;bottom:0;left:-80px;opacity:.22"></div>
+
+    <div class="container">
+      <div class="sec-hd">
+        <div class="chip">Our Programs</div>
+        <h2 class="sec-h">Every Stage,<br><span class="gt-sky">Every Child</span></h2>
+        <p class="sec-p">Four carefully designed programs that grow with your child — from first steps into school life all the way to kindergarten confidence.</p>
+      </div>
+
+      <div class="prog-grid">
+        <div
+          class="prog-card glass"
+          *ngFor="let p of programs">
+          <div
+            class="prog-icon"
+            [style.background]="p.iconBg"
+            [style.border]="'1px solid ' + p.iconBorder">
+            {{ p.icon }}
+          </div>
+          <div
+            class="prog-age"
+            [style.color]="p.ageColor"
+            [style.background]="p.ageBg"
+            [style.border]="'1px solid ' + p.ageBorder">
+            {{ p.age }}
+          </div>
+          <div class="prog-name">{{ p.name }}</div>
+          <p class="prog-desc">{{ p.desc }}</p>
+          <div class="prog-tags">
+            <span class="prog-tag" *ngFor="let tag of p.tags">{{ tag }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       WHY US
+  ════════════════════════════════════════════ -->
+  <section class="why sp" id="why-us">
+    <div class="container">
+      <div class="sec-hd">
+        <div class="chip">Why Choose Us</div>
+        <h2 class="sec-h">Built Different,<br><span class="gt-sun">From Day One</span></h2>
+      </div>
+      <div class="why-grid">
+        <div
+          class="why-card glass"
+          *ngFor="let w of whyCards"
+          [style.--w-c]="w.color">
+          <span class="why-n">{{ w.num }}</span>
+          <div class="why-icon">{{ w.icon }}</div>
+          <div class="why-title">{{ w.title }}</div>
+          <p class="why-desc">{{ w.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       TESTIMONIALS
+  ════════════════════════════════════════════ -->
+  <section class="testi sp" id="testimonials">
+    <div class="orb o-rose" style="width:380px;height:380px;top:0;right:8%;opacity:.18"></div>
+
+    <div class="container">
+      <div class="sec-hd">
+        <div class="chip">Early Families</div>
+        <h2 class="sec-h">Our Founding Parents<br><span class="gt-sky">Already Love It</span></h2>
+        <p class="sec-p">We've just opened our doors — and our early families couldn't be happier.</p>
+      </div>
+
+      <div class="testi-grid">
+        <div class="t-card glass" *ngFor="let t of testimonials">
+          <div class="t-top">
+            <div class="t-q">"</div>
+            <div class="t-stars">★★★★★</div>
+          </div>
+          <p class="t-text">{{ t.text }}</p>
+          <div class="t-author">
+            <div class="t-av">{{ t.initials }}</div>
+            <div>
+              <div class="t-name">{{ t.name }}</div>
+              <div class="t-role">{{ t.role }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       CONTACT / ENQUIRY
+  ════════════════════════════════════════════ -->
+  <section class="contact-section sp" id="contact">
+    <div class="container">
+      <div class="contact-wrap">
+        <div class="contact-inner">
+
+          <!-- Left: Info -->
+          <div class="c-left">
+            <div>
+              <div class="chip" style="margin-bottom:16px">Get In Touch</div>
+              <h2 class="c-h">
+                Ready to Give Your Child<br>
+                the <span class="gt-sun">Best Start?</span>
+              </h2>
+              <p class="c-sub">
+                Visit us, book a free tour, or fill out the form.
+                Limited seats for 2026–27 — we'd love to meet your family.
+              </p>
+            </div>
+
+            <div class="info-items">
+              <div class="info-item" *ngFor="let info of contactInfo">
+                <div class="info-ic" [style.background]="info.bg">{{ info.icon }}</div>
+                <div>
+                  <div class="info-l">{{ info.label }}</div>
+                  <div class="info-v">{{ info.value }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="founder-note">
+              <div class="fn-head">⚡ Founding Batch Offer</div>
+              <p>Enroll in our first batch and receive exclusive founding family benefits.
+                <strong>Limited seats available for 2026–27.</strong></p>
+            </div>
+          </div>
+
+          <!-- Right: Form -->
+          <div class="c-right">
+            <div>
+              <div class="form-h">Quick Enquiry</div>
+              <div class="form-s">We'll get back to you within 24 hours.</div>
+            </div>
+
+            <div class="fg-row">
+              <div class="fg">
+                <label>Parent's Name</label>
+                <input type="text" placeholder="Your full name" [(ngModel)]="enquiry.parentName">
+              </div>
+              <div class="fg">
+                <label>Phone Number</label>
+                <input type="tel" placeholder="+91 XXXXX XXXXX" [(ngModel)]="enquiry.phone">
+              </div>
+            </div>
+
+            <div class="fg">
+              <label>Child's Name</label>
+              <input type="text" placeholder="Your child's name" [(ngModel)]="enquiry.childName">
+            </div>
+
+            <div class="fg-row">
+              <div class="fg">
+                <label>Child's Age</label>
+                <select [(ngModel)]="enquiry.age">
+                  <option value="">Select age</option>
+                  <option>1.5 – 2 years</option>
+                  <option>2 – 3 years</option>
+                  <option>3 – 4 years</option>
+                  <option>4 – 5 years</option>
+                  <option>5 – 6 years</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label>Program</label>
+                <select [(ngModel)]="enquiry.program">
+                  <option value="">Select program</option>
+                  <option>Playgroup</option>
+                  <option>Nursery</option>
+                  <option>Junior KG</option>
+                  <option>Senior KG</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="fg">
+              <label>Message (optional)</label>
+              <textarea rows="3" placeholder="Any questions or special requirements?" [(ngModel)]="enquiry.message"></textarea>
+            </div>
+
+            <button class="sub-btn" (click)="submitEnquiry()">
+              Submit Enquiry
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+
+            <p class="form-privacy">🔒 Your details are safe with us. No spam, ever.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>

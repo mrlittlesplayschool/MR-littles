@@ -1,0 +1,227 @@
+/* ── Attendance Component Styles ── */
+
+.page { display: flex; flex-direction: column; gap: 24px; max-width: 1200px; }
+.page-hdr { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.page-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 4px; }
+.page-sub { font-size: 0.88rem; color: var(--chalk-3); }
+
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--rim);
+  border-radius: var(--r-lg);
+}
+
+/* ── Program tabs ── */
+.prog-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.prog-tab {
+  padding: 8px 18px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--rim);
+  background: var(--surface);
+  color: var(--chalk-3);
+  font-family: var(--f-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover { color: var(--chalk); border-color: var(--rim-hi); }
+
+  &.active {
+    background: linear-gradient(135deg, rgba(255,179,71,.15), rgba(255,126,179,.1));
+    border-color: rgba(255,179,71,.4);
+    color: var(--sun);
+  }
+}
+
+/* ── Summary chips ── */
+.att-summary {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.att-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--r-full);
+  background: var(--surface);
+  border: 1px solid var(--rim);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--chalk);
+
+  span:first-child { font-size: 1rem; }
+}
+
+/* ── Bulk action bar ── */
+.filter-bar,
+.bulk-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  flex-wrap: wrap;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: var(--r-full);
+  font-family: var(--f-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--chalk-2);
+  background: var(--surface);
+  border: 1px solid var(--rim);
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover { color: var(--chalk); border-color: var(--rim-hi); background: var(--surface-md); }
+}
+
+/* ── Save button (right-aligned, turns green when saved) ── */
+.btn-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  border-radius: var(--r-full);
+  font-family: var(--f-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: linear-gradient(135deg, var(--sun), #ffcf7a);
+  box-shadow: 0 4px 18px var(--sun-g);
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  transition: background 0.35s ease, box-shadow 0.35s ease, color 0.2s ease, transform 0.2s ease;
+
+  &:hover:not(.saved) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px var(--sun-g);
+  }
+
+  &.saved {
+    background: linear-gradient(135deg, #2ecc71, #1aab58) !important;
+    box-shadow: 0 4px 18px rgba(46, 204, 113, 0.4) !important;
+    color: white !important;
+    cursor: default;
+    transform: none;
+  }
+}
+
+/* ── Date input ── */
+.att-date-input {
+  padding: 9px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--rim);
+  background: var(--surface-md);
+  color: var(--chalk);
+  font-family: var(--f-body);
+  font-size: 0.85rem;
+  outline: none;
+  &:focus { border-color: rgba(255,179,71,.4); }
+}
+
+/* ── Attendance list ── */
+.att-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.att-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--rim);
+  background: var(--surface);
+  transition: background 0.2s;
+
+  &:hover { background: var(--surface-md); }
+}
+
+.att-av {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--sky), var(--leaf));
+}
+
+.att-name {
+  flex: 1;
+  min-width: 120px;
+
+  .name { font-size: 0.88rem; font-weight: 600; color: var(--chalk); }
+  .id   { font-size: 0.7rem; color: var(--chalk-3); margin-top: 2px; }
+}
+
+/* ── Status toggle buttons ── */
+.att-status-group {
+  display: flex;
+  gap: 6px;
+}
+
+.status-btn {
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--rim);
+  background: var(--surface-md);
+  color: var(--chalk-3);
+  font-family: var(--f-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover { color: var(--chalk); border-color: var(--rim-hi); }
+
+  &.active-present {
+    background: rgba(93,220,140,.15);
+    border-color: rgba(93,220,140,.4);
+    color: var(--leaf);
+  }
+
+  &.active-late {
+    background: rgba(255,179,71,.15);
+    border-color: rgba(255,179,71,.4);
+    color: var(--sun);
+  }
+
+  &.active-absent {
+    background: rgba(255,107,107,.15);
+    border-color: rgba(255,107,107,.4);
+    color: #ff6b6b;
+  }
+}
+
+/* ── Date picker ── */
+input[type="date"] {
+  color-scheme: dark;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .att-row { flex-wrap: wrap; gap: 10px; }
+  .att-status-group { flex-wrap: wrap; }
+}

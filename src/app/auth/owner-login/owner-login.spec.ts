@@ -1,0 +1,22 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { OwnerLoginComponent } from './owner-login';
+
+describe('OwnerLogin', () => {
+  let component: OwnerLoginComponent;
+  let fixture: ComponentFixture<OwnerLoginComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [OwnerLoginComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(OwnerLoginComponent);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

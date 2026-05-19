@@ -1,0 +1,139 @@
+<!-- STUDENTS MODULE -->
+<div class="page">
+
+  <div class="page-hdr">
+    <div>
+      <h1 class="page-title">Students</h1>
+      <p class="page-sub">{{ filtered.length }} students enrolled</p>
+    </div>
+    <button class="btn-add" (click)="openAdd()">+ Add Student</button>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="card glass filter-bar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" [(ngModel)]="search" placeholder="Search name or parent...">
+    </div>
+    <select class="filter-select" [(ngModel)]="filterPrg">
+      <option value="">All Programs</option>
+      <option>Playgroup</option><option>Nursery</option>
+      <option>Junior KG</option><option>Senior KG</option>
+    </select>
+  </div>
+
+  <!-- Table -->
+  <div class="card glass" style="padding:0;overflow:hidden">
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Program</th>
+            <th>Age</th>
+            <th>Parent</th>
+            <th>Phone</th>
+            <th>Fee Plan</th>
+            <th>Joined</th>
+            <th>Fees</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of filtered">
+            <td>
+              <div class="td-name">
+                <div class="td-av" [style.background]="'linear-gradient(135deg,'+programColors[s.program]+','+programColors[s.program]+'88)'">
+                  {{ s.avatar }}
+                </div>
+                <div>
+                  <div>{{ s.name }}</div>
+                  <div style="font-size:.68rem;color:var(--chalk-3)">{{ s.id }}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge" [style.color]="programColors[s.program]"
+                [style.background]="programColors[s.program]+'18'"
+                [style.borderColor]="programColors[s.program]+'33'">
+                {{ s.program }}
+              </span>
+            </td>
+            <td>{{ s.age }}</td>
+            <td>{{ s.parentName }}</td>
+            <td>{{ s.phone }}</td>
+            <td>
+              <span class="badge badge-blue">{{ s.feePlan }}</span>
+            </td>
+            <td>{{ s.joinDate }}</td>
+            <td><span class="badge" [class]="feeClass(s.feeStatus)">{{ s.feeStatus }}</span></td>
+            <td>
+              <div class="action-btns">
+                <button class="icon-btn" (click)="openEdit(s)" title="Edit">✏️</button>
+                <button class="icon-btn danger" (click)="deleteStudent(s.id)" title="Delete">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Add / Edit Modal -->
+  <div class="modal-backdrop" *ngIf="showForm" (click)="closeForm()"></div>
+  <div class="modal glass" *ngIf="showForm">
+    <div class="modal-hdr">
+      <h2 class="modal-title">{{ editMode ? 'Edit Student' : 'Add New Student' }}</h2>
+      <button class="modal-close" (click)="closeForm()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Student Name *</label>
+          <input [(ngModel)]="newStudent.name" placeholder="Full name">
+        </div>
+        <div class="form-field">
+          <label>Program *</label>
+          <select [(ngModel)]="newStudent.program">
+            <option value="">Select program</option>
+            <option>Playgroup</option><option>Nursery</option>
+            <option>Junior KG</option><option>Senior KG</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Date of Birth</label>
+          <app-datepicker [value]="newStudent.dob"
+            [noFuture]="true"
+            placeholder="Select date of birth"
+            (valueChange)="newStudent.dob = $event">
+          </app-datepicker>
+        </div>
+        <div class="form-field">
+          <label>Fee Payment Plan *</label>
+          <select [(ngModel)]="newStudent.feePlan">
+            <option value="Monthly">Monthly</option>
+            <option value="6 Months">6 Months (Save 4-5%)</option>
+            <option value="Yearly">Yearly (Save 7-11%)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Parent / Guardian Name</label>
+          <input [(ngModel)]="newStudent.parentName" placeholder="Parent name">
+        </div>
+        <div class="form-field">
+          <label>Phone</label>
+          <input [(ngModel)]="newStudent.phone" placeholder="+91 XXXXX XXXXX">
+        </div>
+        <div class="form-field span-2">
+          <label>Address</label>
+          <input [(ngModel)]="newStudent.address" placeholder="Area, City">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" (click)="closeForm()">Cancel</button>
+      <button class="btn-add" (click)="saveStudent()">{{ editMode ? 'Save Changes' : 'Add Student' }}</button>
+    </div>
+  </div>
+
+</div>
