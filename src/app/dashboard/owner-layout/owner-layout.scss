@@ -7,9 +7,11 @@
 .dash-shell {
   display: flex;
   height: 100vh;
+  height: 100dvh; /* Use dynamic viewport height for mobile */
   overflow: hidden;
   background: var(--ink);
   font-family: var(--f-body);
+  position: relative;
 }
 
 /* ════════════════════════════════
@@ -223,20 +225,29 @@
   display: none;
   flex-direction: column;
   gap: 4px;
-  width: 36px;
-  height: 36px;
-  padding: 8px;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
   border: 1px solid var(--rim);
   border-radius: var(--r-sm);
   background: var(--surface);
   cursor: pointer;
   flex-shrink: 0;
+  transition: all var(--t-fast);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+
+  &:active {
+    transform: scale(0.95);
+    background: var(--surface-md);
+  }
 
   span {
     display: block;
     height: 2px;
     background: var(--chalk-2);
     border-radius: 2px;
+    transition: all var(--t-fast);
   }
 }
 
@@ -277,9 +288,12 @@
 .dash-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 28px;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   scrollbar-width: thin;
   scrollbar-color: var(--rim) transparent;
+  min-height: 0; /* Fix for flex scrolling */
 }
 
 /* Sidebar overlay */
@@ -288,11 +302,16 @@
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
   z-index: 99;
   opacity: 0;
   transition: opacity var(--t-normal);
+  pointer-events: none;
 
-  &.visible { opacity: 1; }
+  &.visible { 
+    opacity: 1; 
+    pointer-events: auto;
+  }
 }
 
 /* ════════════════════════════════
@@ -304,17 +323,35 @@
     top: 0;
     left: 0;
     bottom: 0;
+    width: 280px;
     transform: translateX(-100%);
     z-index: 100;
     box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+    will-change: transform;
 
-    &.open { transform: translateX(0); }
+    &.open { 
+      transform: translateX(0);
+    }
   }
 
-  .sb-overlay { display: block; }
-  .topbar-burger { display: flex; }
-  .topbar-date { display: none; }
-  .dash-content { padding: 20px 16px; }
+  .sb-overlay { 
+    display: block;
+  }
+  
+  .topbar-burger { 
+    display: flex;
+  }
+  
+  .topbar-date { 
+    display: none;
+  }
+  
+  .dash-content { 
+    padding: 20px 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
   
   .topbar {
     padding: 0 16px;
@@ -323,6 +360,13 @@
   
   .topbar-title {
     font-size: 1rem;
+  }
+  
+  /* Prevent body scroll when sidebar is open */
+  .dash-shell.sidebar-open {
+    .dash-main {
+      overflow: hidden;
+    }
   }
 }
 
@@ -369,5 +413,9 @@
   
   .sb-user-role {
     font-size: 0.65rem;
+  }
+  
+  .sidebar {
+    width: 260px;
   }
 }

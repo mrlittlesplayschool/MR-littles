@@ -52,8 +52,21 @@ export class OwnerLayoutComponent {
     return this.router.url.startsWith(route);
   }
 
-  toggleSidebar() { this.sidebarOpen.update(v => !v); }
-  closeSidebar()  { this.sidebarOpen.set(false); }
+  toggleSidebar() { 
+    this.sidebarOpen.update(v => !v);
+    // Prevent body scroll on mobile when sidebar is open
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = this.sidebarOpen() ? 'hidden' : '';
+    }
+  }
+  
+  closeSidebar()  { 
+    this.sidebarOpen.set(false);
+    // Re-enable body scroll
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+    }
+  }
 
   logout() {
   this.auth.logout();
