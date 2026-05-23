@@ -209,22 +209,34 @@ export class StudentsComponent implements OnInit {
       },
       error: err => {
         console.error('Save error:', err);
+        console.error('Error details:', JSON.stringify(err, null, 2));
+        
         let errorMsg = 'Failed to save student.';
         
-        // Parse error message
+        // Parse error message from different possible locations
         if (err?.error?.error) {
           errorMsg = err.error.error;
         } else if (err?.error?.message) {
           errorMsg = err.error.message;
         } else if (err?.message) {
           errorMsg = err.message;
+        } else if (err?.statusText) {
+          errorMsg = err.statusText;
         }
         
         // Check for specific errors
-        if (errorMsg.includes('FEE_STRUCTURE_NOT_FOUND') || errorMsg.includes('Fee structure not configured')) {
-          alert('❌ Fee structure not configured!\n\nPlease configure fee structures for this program and fee plan in the Fee Structure Manager before adding students.');
+        if (errorMsg.includes('FEE_STRUCTURE_NOT_FOUND') || 
+            errorMsg.includes('Fee structure not configured') ||
+            errorMsg.includes('fee structure')) {
+          alert(`❌ Fee Structure Not Configured!\n\nThe fee structure for:\n• Program: ${this.newStudent.program}\n• Fee Plan: ${this.newStudent.feePlan}\n• Academic Year: Current\n\nis not configured.\n\nPlease go to Fee Structure Manager and add the fee structure before creating students.`);
+        } else if (err.status === 0) {
+          alert('❌ Cannot connect to server!\n\nPlease check:\n1. Backend is running\n2. Internet connection\n3. CORS is configured');
+        } else if (err.status === 400) {
+          alert('❌ Invalid Data!\n\n' + errorMsg);
+        } else if (err.status === 500) {
+          alert('❌ Server Error!\n\n' + errorMsg + '\n\nPlease check the backend logs.');
         } else {
-          alert('❌ ' + errorMsg);
+          alert('❌ Error: ' + errorMsg + '\n\nStatus: ' + (err.status || 'Unknown'));
         }
       }
     });
