@@ -124,15 +124,66 @@ export class StudentsComponent implements OnInit {
   closeForm() { this.showForm = false; }
 
   saveStudent() {
-    // Trim and validate
+    // Validate required fields
     const name = this.newStudent.name?.trim();
     if (!name) {
-      alert('Student name is required.');
+      alert('❌ Student name is required.');
       return;
     }
-    if (!this.newStudent.program) {
-      alert('Please select a program.');
+    
+    if (name.length < 2) {
+      alert('❌ Student name must be at least 2 characters.');
       return;
+    }
+    
+    if (!this.newStudent.program) {
+      alert('❌ Please select a program.');
+      return;
+    }
+    
+    // Validate phone number
+    const phone = this.newStudent.phone?.trim();
+    if (phone) {
+      // Remove spaces and special characters for validation
+      const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
+      
+      // Check if it's a valid Indian phone number (10 digits)
+      if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
+        alert('❌ Please enter a valid 10-digit Indian phone number starting with 6-9.');
+        return;
+      }
+    }
+    
+    // Validate parent name
+    const parentName = this.newStudent.parentName?.trim();
+    if (parentName && parentName.length < 2) {
+      alert('❌ Parent name must be at least 2 characters.');
+      return;
+    }
+    
+    // Validate date of birth
+    if (this.newStudent.dob) {
+      const dobDate = new Date(this.newStudent.dob);
+      const today = new Date();
+      const minDate = new Date();
+      minDate.setFullYear(today.getFullYear() - 10); // Max 10 years old
+      const maxDate = new Date();
+      maxDate.setFullYear(today.getFullYear() - 1); // Min 1 year old
+      
+      if (dobDate > today) {
+        alert('❌ Date of birth cannot be in the future.');
+        return;
+      }
+      
+      if (dobDate < minDate) {
+        alert('❌ Student age cannot be more than 10 years.');
+        return;
+      }
+      
+      if (dobDate > maxDate) {
+        alert('❌ Student must be at least 1 year old.');
+        return;
+      }
     }
 
     // Map camelCase form → snake_case API
@@ -140,8 +191,8 @@ export class StudentsComponent implements OnInit {
       name:        name,
       program:     this.newStudent.program,
       dob:         this.newStudent.dob || null,
-      parent_name: this.newStudent.parentName?.trim() || '',
-      phone:       this.newStudent.phone?.trim() || '',
+      parent_name: parentName || '',
+      phone:       phone || '',
       address:     this.newStudent.address?.trim() || '',
       fee_plan:    this.newStudent.feePlan || 'Monthly'
     };
@@ -152,13 +203,29 @@ export class StudentsComponent implements OnInit {
 
     req.subscribe({
       next: () => {
+        alert(this.editId ? '✅ Student updated successfully!' : '✅ Student added successfully!');
         this.closeForm();
         this.loadStudents();
       },
       error: err => {
         console.error('Save error:', err);
-        const errorMsg = err?.error?.error || err?.error?.message || 'Failed to save student. Check console for details.';
-        alert(errorMsg);
+        let errorMsg = 'Failed to save student.';
+        
+        // Parse error message
+        if (err?.error?.error) {
+          errorMsg = err.error.error;
+        } else if (err?.error?.message) {
+          errorMsg = err.error.message;
+        } else if (err?.message) {
+          errorMsg = err.message;
+        }
+        
+        // Check for specific errors
+        if (errorMsg.includes('FEE_STRUCTURE_NOT_FOUND') || errorMsg.includes('Fee structure not configured')) {
+          alert('❌ Fee structure not configured!\n\nPlease configure fee structures for this program and fee plan in the Fee Structure Manager before adding students.');
+        } else {
+          alert('❌ ' + errorMsg);
+        }
       }
     });
   }

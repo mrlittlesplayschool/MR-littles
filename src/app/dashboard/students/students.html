@@ -90,11 +90,18 @@
       <div class="form-grid">
         <div class="form-field">
           <label>Student Name *</label>
-          <input [(ngModel)]="newStudent.name" placeholder="Full name">
+          <input 
+            [(ngModel)]="newStudent.name" 
+            placeholder="Full name"
+            type="text"
+            required
+            minlength="2"
+            maxlength="100"
+            autocomplete="name">
         </div>
         <div class="form-field">
           <label>Program *</label>
-          <select [(ngModel)]="newStudent.program">
+          <select [(ngModel)]="newStudent.program" required>
             <option value="">Select program</option>
             <option>Playgroup</option><option>Nursery</option>
             <option>Junior KG</option><option>Senior KG</option>
@@ -110,7 +117,7 @@
         </div>
         <div class="form-field">
           <label>Fee Payment Plan *</label>
-          <select [(ngModel)]="newStudent.feePlan">
+          <select [(ngModel)]="newStudent.feePlan" required>
             <option value="Monthly">Monthly</option>
             <option value="6 Months">6 Months (Save 4-5%)</option>
             <option value="Yearly">Yearly (Save 7-11%)</option>
@@ -118,15 +125,33 @@
         </div>
         <div class="form-field">
           <label>Parent / Guardian Name</label>
-          <input [(ngModel)]="newStudent.parentName" placeholder="Parent name">
+          <input 
+            [(ngModel)]="newStudent.parentName" 
+            placeholder="Parent name"
+            type="text"
+            minlength="2"
+            maxlength="100"
+            autocomplete="name">
         </div>
         <div class="form-field">
           <label>Phone</label>
-          <input [(ngModel)]="newStudent.phone" placeholder="+91 XXXXX XXXXX">
+          <input 
+            [(ngModel)]="newStudent.phone" 
+            placeholder="10-digit mobile number"
+            type="tel"
+            pattern="[6-9][0-9]{9}"
+            maxlength="10"
+            autocomplete="tel"
+            title="Enter a valid 10-digit Indian mobile number starting with 6-9">
         </div>
         <div class="form-field span-2">
           <label>Address</label>
-          <input [(ngModel)]="newStudent.address" placeholder="Area, City">
+          <input 
+            [(ngModel)]="newStudent.address" 
+            placeholder="Area, City"
+            type="text"
+            maxlength="200"
+            autocomplete="street-address">
         </div>
       </div>
     </div>

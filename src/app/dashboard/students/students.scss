@@ -443,3 +443,40 @@
     padding: 4px 8px;
   }
 }
+
+
+// ── Form Validation Styles ───────────────────────
+.form-field {
+  input:invalid:not(:placeholder-shown),
+  select:invalid:not(:placeholder-shown) {
+    border-color: #e74c3c;
+    background: rgba(231, 76, 60, 0.05);
+  }
+  
+  input:valid:not(:placeholder-shown),
+  select:valid:not(:placeholder-shown) {
+    border-color: #2ecc71;
+  }
+  
+  input[required] + label::after,
+  select[required] + label::after {
+    content: ' *';
+    color: #e74c3c;
+  }
+}
+
+// ── Error messages ────────────────────────────────
+.error-msg {
+  font-size: 0.75rem;
+  color: #e74c3c;
+  margin-top: 4px;
+  display: block;
+}
+
+// ── Success messages ──────────────────────────────
+.success-msg {
+  font-size: 0.75rem;
+  color: #2ecc71;
+  margin-top: 4px;
+  display: block;
+}
