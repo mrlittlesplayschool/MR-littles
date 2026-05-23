@@ -125,50 +125,71 @@ export class FeeStructureComponent implements OnInit {
     const structures: FeeStructure[] = this.planTypes.map(planType => ({
       program: this.selectedProgram,
       plan_type: planType,
-      amount: this.planData[planType].amount,
-      discount_percentage: this.planData[planType].discount,
+      amount: Number(this.planData[planType].amount) || 0,
+      discount_percentage: Number(this.planData[planType].discount) || 0,
       academic_year: this.currentYear,
       is_active: true
     }));
 
-    console.log('Saving fee structures:', structures);
+    console.log('=== SAVING FEE STRUCTURES ===');
+    console.log('Program:', this.selectedProgram);
+    console.log('Academic Year:', this.currentYear);
+    console.log('Structures:', JSON.stringify(structures, null, 2));
+    console.log('API URL:', 'https://mr-littles-api-production.up.railway.app/api/fee-structures/bulk');
 
     this.api.saveFeeStructures(structures).subscribe({
       next: (response) => {
-        console.log('Save response:', response);
+        console.log('=== SAVE SUCCESS ===');
+        console.log('Response:', response);
         this.saving.set(false);
         alert(`✅ Fee structure saved for ${this.selectedProgram} (${this.currentYear})!`);
         this.loadFeeStructures();
       },
       error: (err) => {
-        console.error('Error saving fee structure:', err);
-        console.error('Error details:', JSON.stringify(err, null, 2));
+        console.error('=== SAVE ERROR ===');
+        console.error('Full error object:', err);
+        console.error('Status:', err.status);
+        console.error('Status Text:', err.statusText);
+        console.error('Error body:', err.error);
+        console.error('Message:', err.message);
+        console.error('URL:', err.url);
+        
         this.saving.set(false);
         
         let errorMsg = 'Failed to save fee structure.';
+        let detailedError = '';
         
-        if (err?.error?.error) {
-          errorMsg = err.error.error;
-        } else if (err?.error?.message) {
-          errorMsg = err.error.message;
-        } else if (err?.message) {
-          errorMsg = err.message;
-        } else if (err?.statusText) {
-          errorMsg = err.statusText;
+        // Try to extract the actual error message
+        if (err?.error) {
+          if (typeof err.error === 'string') {
+            detailedError = err.error;
+          } else if (err.error.error) {
+            detailedError = err.error.error;
+          } else if (err.error.message) {
+            detailedError = err.error.message;
+          }
         }
         
+        if (err.message) {
+          errorMsg = err.message;
+        }
+        
+        console.error('Extracted error message:', errorMsg);
+        console.error('Detailed error:', detailedError);
+        
+        // Show appropriate error based on status
         if (err.status === 0) {
-          alert('❌ Cannot connect to server!\n\nPlease check:\n1. Backend is running\n2. Internet connection\n3. CORS is configured');
+          alert('❌ Cannot connect to server!\n\nPlease check:\n1. Backend is running\n2. Internet connection\n3. Try refreshing the page');
         } else if (err.status === 401) {
-          alert('❌ Authentication failed!\n\nPlease logout and login again.');
+          alert('❌ Authentication failed!\n\nYour session may have expired.\nPlease logout and login again.');
         } else if (err.status === 403) {
-          alert('❌ Permission denied!\n\nOnly owners can save fee structures.');
+          alert('❌ Permission denied!\n\nOnly owners can save fee structures.\nPlease check your account role.');
         } else if (err.status === 400) {
-          alert('❌ Invalid data!\n\n' + errorMsg);
+          alert(`❌ Invalid data!\n\n${detailedError || errorMsg}\n\nPlease check the console for details.`);
         } else if (err.status === 500) {
-          alert('❌ Server error!\n\n' + errorMsg + '\n\nPlease check the backend logs.');
+          alert(`❌ Server error!\n\n${detailedError || errorMsg}\n\nPlease check the backend logs.`);
         } else {
-          alert('❌ Error: ' + errorMsg + '\n\nStatus: ' + (err.status || 'Unknown'));
+          alert(`❌ Error: ${detailedError || errorMsg}\n\nStatus: ${err.status || 'Unknown'}\n\nCheck browser console for details.`);
         }
       }
     });
