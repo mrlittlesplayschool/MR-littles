@@ -29,7 +29,7 @@ export class FeeStructureComponent implements OnInit {
   
   programs = ['Playgroup', 'Nursery', 'Junior KG', 'Senior KG'];
   planTypes = ['Monthly', '6 Months', 'Yearly'];
-  currentYear = '2025-26';
+  currentYear = this.getCurrentAcademicYear();
   
   selectedProgram = 'Playgroup';
   
@@ -42,6 +42,18 @@ export class FeeStructureComponent implements OnInit {
 
   ngOnInit() {
     this.loadFeeStructures();
+  }
+
+  getCurrentAcademicYear(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth(); // 0-indexed (0 = January)
+    
+    // If before April (month < 3), we're in the previous academic year
+    if (month < 3) {
+      return `${year - 1}-${year.toString().slice(2)}`;
+    }
+    return `${year}-${(year + 1).toString().slice(2)}`;
   }
 
   loadFeeStructures() {
@@ -100,6 +112,14 @@ export class FeeStructureComponent implements OnInit {
   }
 
   saveFeeStructure() {
+    // Validate that at least one amount is entered
+    const hasData = this.planTypes.some(planType => this.planData[planType].amount > 0);
+    
+    if (!hasData) {
+      alert('❌ Please enter at least one fee amount before saving.');
+      return;
+    }
+    
     this.saving.set(true);
     
     const structures: FeeStructure[] = this.planTypes.map(planType => ({
@@ -111,16 +131,45 @@ export class FeeStructureComponent implements OnInit {
       is_active: true
     }));
 
+    console.log('Saving fee structures:', structures);
+
     this.api.saveFeeStructures(structures).subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('Save response:', response);
         this.saving.set(false);
-        alert(`Fee structure saved for ${this.selectedProgram}!`);
+        alert(`✅ Fee structure saved for ${this.selectedProgram} (${this.currentYear})!`);
         this.loadFeeStructures();
       },
       error: (err) => {
         console.error('Error saving fee structure:', err);
+        console.error('Error details:', JSON.stringify(err, null, 2));
         this.saving.set(false);
-        alert('Failed to save fee structure. Please try again.');
+        
+        let errorMsg = 'Failed to save fee structure.';
+        
+        if (err?.error?.error) {
+          errorMsg = err.error.error;
+        } else if (err?.error?.message) {
+          errorMsg = err.error.message;
+        } else if (err?.message) {
+          errorMsg = err.message;
+        } else if (err?.statusText) {
+          errorMsg = err.statusText;
+        }
+        
+        if (err.status === 0) {
+          alert('❌ Cannot connect to server!\n\nPlease check:\n1. Backend is running\n2. Internet connection\n3. CORS is configured');
+        } else if (err.status === 401) {
+          alert('❌ Authentication failed!\n\nPlease logout and login again.');
+        } else if (err.status === 403) {
+          alert('❌ Permission denied!\n\nOnly owners can save fee structures.');
+        } else if (err.status === 400) {
+          alert('❌ Invalid data!\n\n' + errorMsg);
+        } else if (err.status === 500) {
+          alert('❌ Server error!\n\n' + errorMsg + '\n\nPlease check the backend logs.');
+        } else {
+          alert('❌ Error: ' + errorMsg + '\n\nStatus: ' + (err.status || 'Unknown'));
+        }
       }
     });
   }
