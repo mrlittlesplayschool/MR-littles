@@ -203,9 +203,9 @@ export class StudentsComponent implements OnInit {
 
     req.subscribe({
       next: () => {
-        alert(this.editId ? '✅ Student updated successfully!' : '✅ Student added successfully!');
         this.closeForm();
-        this.loadStudents();
+        this.loadStudents(); // Reload the list
+        alert(this.editId ? '✅ Student updated successfully!' : '✅ Student added successfully!');
       },
       error: err => {
         console.error('Save error:', err);
