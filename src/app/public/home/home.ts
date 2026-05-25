@@ -140,7 +140,7 @@ export class HomeComponent {
     },
     {
       initials: 'DN',
-      text: 'My son — who was terrified of new places — settled in within a week. The teachers genuinely love what they do. Mr. Littles is something special.',
+      text: 'My son — who was terrified of new places — settled in within a week. The teachers genuinely love what they do. MR LITTLES is something special.',
       name: 'Deepa Nair',
       role: 'Parent of Rohan, 4 yrs · Founding Family'
     }
